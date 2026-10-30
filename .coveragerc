@@ -1,0 +1,23 @@
+# Settings for measuring test coverage. See the README for how to use them.
+
+[run]
+# Measure which lines and which branches (e.g. both sides of an if) are run.
+branch = True
+source = .
+omit =
+    venv/*
+    manage.py
+    group_allocation/asgi.py
+    group_allocation/settings.py
+    group_allocation/wsgi.py
+    */migrations/*
+    */tests/*
+
+[report]
+show_missing = True
+skip_covered = False
+# Leave empty files (such as most __init__.py files) out of the report.
+skip_empty = True
+
+[html]
+directory = htmlcov

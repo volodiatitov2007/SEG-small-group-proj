@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>User {{ shown_user.username }}</h1>
+  <dl>
+    <dt>Username</dt>
+    <dd>{{ shown_user.username }}</dd>
+    <dt>First name</dt>
+    <dd>{{ shown_user.first_name }}</dd>
+    <dt>Last name</dt>
+    <dd>{{ shown_user.last_name }}</dd>
+    <dt>Email</dt>
+    <dd>{{ shown_user.email }}</dd>
+    <dt>Superuser</dt>
+    <dd>{{ shown_user.is_superuser|yesno:"Yes,No" }}</dd>
+  </dl>
+  <a class="btn btn-primary" href="{% url 'user_update' shown_user.id %}">Update</a>
+  <a class="btn btn-danger" href="{% url 'user_delete' shown_user.id %}">Delete</a>
+  <a class="btn btn-secondary" href="{% url 'user_list' %}">Back to users</a>
+{% endblock %}

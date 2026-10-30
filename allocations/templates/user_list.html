@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Users</h1>
+  <p><a class="btn btn-primary" href="{% url 'user_create' %}">Create user</a></p>
+
+  <table class="table">
+    <tr>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Superuser</th>
+    </tr>
+    {% for shown_user in page %}
+      <tr>
+        <td><a href="{% url 'user_detail' shown_user.id %}">{{ shown_user.username }}</a></td>
+        <td>{{ shown_user.get_full_name }}</td>
+        <td>{{ shown_user.email }}</td>
+        <td>{{ shown_user.is_superuser|yesno:"Yes,No" }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <p>
+    {% if page.has_previous %}
+      <a href="?page=1">First</a> |
+      <a href="?page={{ page.previous_page_number }}">Previous</a> |
+    {% endif %}
+    Page {{ page.number }} of {{ page.paginator.num_pages }}
+    {% if page.has_next %}
+      | <a href="?page={{ page.next_page_number }}">Next</a>
+      | <a href="?page={{ page.paginator.num_pages }}">Last</a>
+    {% endif %}
+  </p>
+{% endblock %}
