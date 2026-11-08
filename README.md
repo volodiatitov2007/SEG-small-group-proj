@@ -1,4 +1,4 @@
-# Group Allocation system by Team *enter team name here*
+# Group Allocation system by Team Moose
 A group allocation system developed for the Small Group Project assignment of the Software Engineering Group Project module at King's College London.
 
 ## Team members
@@ -11,7 +11,7 @@ The members of the team are:
 
 ## Deployment
 
-The system has been deployed at [*insert url here*](*url*)
+The system has been deployed at [https://moose.pythonanywhere.com](https://moose.pythonanywhere.com)
 
 
 ## Getting started
