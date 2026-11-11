@@ -20,3 +20,16 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.get_full_name()} ({self.username})'
+
+class Project(models.Model):
+    """A group-work project whose students need to be allocated to teams."""
+
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
