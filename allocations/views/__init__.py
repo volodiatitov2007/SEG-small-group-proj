@@ -4,6 +4,7 @@ The views are grouped into modules. They are all imported here, so that
 other code can keep using them as views.home, views.user_list, and so on.
 """
 
+from .project_views import project_list
 from .session_views import dashboard, home, log_in, log_out
 from .user_management_views import (
     password,
