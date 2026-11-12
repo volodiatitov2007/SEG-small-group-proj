@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-start">
+    <div><h1>{{ run.project.name }}: results</h1><p>{{ run.cohort.original_filename }} · {{ run.created_at }}</p></div>
+    <a class="btn btn-primary" href="{% url 'export_run_csv' run.pk %}">Download CSV</a>
+  </div>
+  <section class="card card-body mb-3">
+    <h2 class="h5">Summary</h2>
+    <p class="mb-1">{{ allocated_count }} allocated students in {{ team_count }} teams.</p>
+    <p class="mb-1">Policy used: {{ run.policy_snapshot }}</p>
+    {% if unmet_rules %}<p class="mb-0">{{ unmet_rules|length }} unmet rule{{ unmet_rules|length|pluralize }}.</p>
+    {% else %}<p class="mb-0">All soft rules met.</p>{% endif %}
+  </section>
+  <section class="mb-4"><h2 class="h5">Unmet rules</h2>
+    {% if unmet_rules %}<ul class="list-group">{% for violation in unmet_rules %}
+      <li class="list-group-item list-group-item-warning">{% if violation.text %}{{ violation.text }}{% else %}{{ violation }}{% endif %}</li>
+    {% endfor %}</ul>{% else %}<p class="text-muted">All soft rules met.</p>{% endif %}
+  </section>
+  <h2 class="h5">Teams</h2>
+  {% for team in teams %}<section class="mb-3">
+    <h3 class="h6">{{ team.name }} <span class="text-muted">({{ team.members.count }})</span>{% if team.has_violation %} <span class="badge text-bg-warning">Rule unmet</span>{% endif %}</h3>
+    <div class="table-responsive"><table class="table table-sm">
+      <thead><tr><th>Name</th><th>Email</th><th>Gender</th><th>Ethnicity</th><th>C-score</th></tr></thead>
+      <tbody>{% for membership in team.members.all %}<tr>
+        <td>{{ membership.student.first_name }} {{ membership.student.last_name }}</td><td>{{ membership.student.email }}</td>
+        <td>{{ membership.student.gender|default_if_none:'—' }}</td><td>{{ membership.student.ethnicity|default_if_none:'—' }}</td><td>{{ membership.student.c_score|default_if_none:'—' }}</td>
+      </tr>{% endfor %}</tbody>
+    </table></div>
+  </section>{% empty %}<p>No teams were recorded for this run.</p>{% endfor %}
+{% endblock %}
