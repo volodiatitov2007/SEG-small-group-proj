@@ -7,6 +7,9 @@ import csv
 import io
 from dataclasses import dataclass, field
 
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+
 REQUIRED_COLUMNS = ['first_name', 'last_name', 'email']
 
 
@@ -48,8 +51,10 @@ def parse_cohort_csv(uploaded_file):
     if result.errors:
         return result
 
+    seen_emails = {}
     for row_number, row in enumerate(reader, start=2):
         _check_required_values(row, row_number, result)
+        _check_email(row, row_number, seen_emails, result)
 
     return result
 
@@ -65,3 +70,32 @@ def _check_required_values(row, row_number, result):
                 value='',
                 message=f'Row {row_number}: {column} is empty. Every student needs a first name, last name, and email.',
             ))
+
+
+def _check_email(row, row_number, seen_emails, result):
+    """Report an email that is invalid, or already used on an earlier row."""
+    email = (row['email'] or '').strip()
+    if not email:
+        return
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        result.errors.append(Problem(
+            row_number=row_number,
+            column='email',
+            value=email,
+            message=f"Row {row_number}: '{email}' is not a valid email address.",
+        ))
+        return
+
+    key = email.lower()
+    if key in seen_emails:
+        result.errors.append(Problem(
+            row_number=row_number,
+            column='email',
+            value=email,
+            message=f'Row {row_number}: {email} is already used on row {seen_emails[key]}.',
+        ))
+    else:
+        seen_emails[key] = row_number

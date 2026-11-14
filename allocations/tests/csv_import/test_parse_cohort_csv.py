@@ -76,3 +76,43 @@ class RequiredValuesTestCase(SimpleTestCase):
         result = parse_cohort_csv(csv_file('first_name,last_name\n,\n'))
         self.assertEqual(len(result.errors), 1)
         self.assertEqual(result.errors[0].column, 'email')
+
+
+class EmailTestCase(SimpleTestCase):
+    """Tests that emails are valid and not used twice."""
+
+    def test_invalid_email_is_an_error(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nBob,Brown,bob@\n'))
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].value, 'bob@')
+
+    def test_duplicate_email_names_both_rows(self):
+        result = parse_cohort_csv(csv_file(
+            'first_name,last_name,email\n'
+            'Ada,Lovelace,ada@example.org\n'
+            'Ann,Lee,ada@example.org\n'
+        ))
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].row_number, 3)
+        self.assertIn('row 2', result.errors[0].message)
+
+    def test_duplicate_ignores_capitals_and_spaces(self):
+        result = parse_cohort_csv(csv_file(
+            'first_name,last_name,email\n'
+            'Ada,Lovelace,ada@example.org\n'
+            'Ann,Lee, ADA@Example.org \n'
+        ))
+        self.assertEqual(len(result.errors), 1)
+
+    def test_blank_email_is_only_reported_once(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,\n'))
+        self.assertEqual(len(result.errors), 1)
+
+    def test_different_emails_are_fine(self):
+        result = parse_cohort_csv(csv_file(
+            'first_name,last_name,email\n'
+            'Ada,Lovelace,ada@example.org\n'
+            'Alan,Turing,alan@example.org\n'
+        ))
+        self.assertEqual(result.errors, [])
+    
