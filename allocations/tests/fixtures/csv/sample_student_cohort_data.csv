@@ -1,0 +1,301 @@
+first_name,last_name,email,gender,ethnicity,c-score,schedule,ambition
+Rahul,Khan,rahul.khan@students.example,2: Man,"1: Asian, or Asian British",57,1: Yes,1: Exceed workload
+Rami,Fahmy,rami.fahmy@students.example,2: Man,5 : Other ethnic group (e.g. Arab),63,1: Yes,2: Meet workload
+Victoria,Thomas,victoria.thomas@students.example,1: Woman,4: White,66,1: Yes,2: Meet workload
+Hadi,Abbas,hadi.abbas@students.example,2: Man,5 : Other ethnic group (e.g. Arab),59,1: Yes,2: Meet workload
+Alice,Walker,alice.walker@students.example,1: Woman,4: White,50,1: Yes,2: Meet workload
+Mahmoud,Rahim,mahmoud.rahim@students.example,2: Man,5 : Other ethnic group (e.g. Arab),52,1: Yes,2: Meet workload
+Zoya,Banerjee,zoya.banerjee@students.example,1: Woman,"1: Asian, or Asian British",46,1: Yes,2: Meet workload
+Rina,Islam,rina.islam@students.example,1: Woman,"1: Asian, or Asian British",59,1: Yes,1: Exceed workload
+Zara,Chen,zara.chen@students.example,1: Woman,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Oscar,Cooper,oscar.cooper@students.example,2: Man,4: White,73,1: Yes,2: Meet workload
+Soojin,Ahmed,soojin.ahmed@students.example,1: Woman,"1: Asian, or Asian British",48,1: Yes,2: Meet workload
+Luca,Green-Ahmed,luca.green.ahmed@students.example,2: Man,"3 : Mixed, or multiple ethic groups",59,1: Yes,1: Exceed workload
+Jun,Bhat,jun.bhat@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,1: Exceed workload
+Shreya,Chandra,shreya.chandra@students.example,1: Woman,"1: Asian, or Asian British",68,1: Yes,2: Meet workload
+Rina,Kapoor,rina.kapoor@students.example,1: Woman,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+Adel,Darwish,adel.darwish@students.example,2: Man,5 : Other ethnic group (e.g. Arab),55,1: Yes,2: Meet workload
+Hannah,Baker,hannah.baker@students.example,1: Woman,4: White,63,1: Yes,2: Meet workload
+Ade,Campbell,ade.campbell@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",53,1: Yes,2: Meet workload
+Winston,Clarke,winston.clarke@students.example,2: Man,0,71,1: Yes,2: Meet workload
+Sameer,Zhang,sameer.zhang@students.example,2: Man,"1: Asian, or Asian British",78,1: Yes,0
+Ravi,Ali,ravi.ali@students.example,2: Man,"1: Asian, or Asian British",46,1: Yes,2: Meet workload
+Nisha,Wang,nisha.wang@students.example,1: Woman,"1: Asian, or Asian British",64,1: Yes,2: Meet workload
+Amir,Darwish,amir.darwish@students.example,2: Man,5 : Other ethnic group (e.g. Arab),65,1: Yes,2: Meet workload
+Karim,Fahmy,karim.fahmy@students.example,2: Man,5 : Other ethnic group (e.g. Arab),76,1: Yes,2: Meet workload
+Samuel,Edwards,samuel.edwards@students.example,2: Man,4: White,72,1: Yes,2: Meet workload
+Rahul,Lee,rahul.lee@students.example,2: Man,"1: Asian, or Asian British",52,1: Yes,2: Meet workload
+Emma,Hall,emma.hall@students.example,1: Woman,0,77,1: Yes,1: Exceed workload
+Andre,Robinson,andre.robinson@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",88,1: Yes,1: Exceed workload
+Sakura,Gupta,sakura.gupta@students.example,1: Woman,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Aya,Salim,aya.salim@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),74,1: Yes,2: Meet workload
+Aisha,Khan,aisha.khan@students.example,1: Woman,"1: Asian, or Asian British",65,1: Yes,2: Meet workload
+Samuel,Brown,samuel.brown@students.example,2: Man,4: White,59,1: Yes,2: Meet workload
+Priya,Ng,priya.ng@students.example,1: Woman,"1: Asian, or Asian British",71,1: Yes,2: Meet workload
+Kenji,Banerjee,kenji.banerjee@students.example,2: Man,"1: Asian, or Asian British",65,1: Yes,2: Meet workload
+Jing,Huang,jing.huang@students.example,1: Woman,"1: Asian, or Asian British",74,1: Yes,2: Meet workload
+Karan,Singh,karan.singh@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Hiro,Lim,hiro.lim@students.example,2: Man,"1: Asian, or Asian British",78,1: Yes,2: Meet workload
+Mohammed,Haq,mohammed.haq@students.example,2: Man,"1: Asian, or Asian British",56,1: Yes,1: Exceed workload
+Zaid,Al-Hassan,zaid.al.hassan@students.example,2: Man,5 : Other ethnic group (e.g. Arab),69,1: Yes,2: Meet workload
+Hamza,Saleh,hamza.saleh@students.example,2: Man,5 : Other ethnic group (e.g. Arab),63,1: Yes,2: Meet workload
+Morgan,Clarke-Patel,morgan.clarke.patel@students.example,0,"3 : Mixed, or multiple ethic groups",64,1: Yes,1: Exceed workload
+Hamza,Rahim,hamza.rahim@students.example,2: Man,5 : Other ethnic group (e.g. Arab),55,1: Yes,1: Exceed workload
+Nabil,Hamdan,nabil.hamdan@students.example,2: Man,5 : Other ethnic group (e.g. Arab),45,1: Yes,2: Meet workload
+Jae,Bhat,jae.bhat@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Daniel,Edwards,daniel.edwards@students.example,2: Man,4: White,58,1: Yes,2: Meet workload
+Benjamin,Hughes,benjamin.hughes@students.example,2: Man,4: White,71,1: Yes,2: Meet workload
+Jack,Davies,jack.davies@students.example,2: Man,0,76,1: Yes,2: Meet workload
+Safiya,Eze,safiya.eze@students.example,1: Woman,"2 : Black, Black British, Caribbean, or African",66,1: Yes,2: Meet workload
+Raj,Rao,raj.rao@students.example,2: Man,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Kenji,Park,kenji.park@students.example,2: Man,"1: Asian, or Asian British",57,1: Yes,2: Meet workload
+Rami,Darwish,rami.darwish@students.example,2: Man,5 : Other ethnic group (e.g. Arab),55,1: Yes,2: Meet workload
+Nathan,Martin-Rahman,nathan.martin.rahman@students.example,2: Man,0,52,1: Yes,2: Meet workload
+Maya,Campbell-Singh,maya.campbell.singh@students.example,1: Woman,"3 : Mixed, or multiple ethic groups",64,1: Yes,2: Meet workload
+Diya,Haq,diya.haq@students.example,1: Woman,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Nathan,Ali-Jones,nathan.ali.jones@students.example,2: Man,"3 : Mixed, or multiple ethic groups",74,1: Yes,2: Meet workload
+Folake,Grant,folake.grant@students.example,1: Woman,"2 : Black, Black British, Caribbean, or African",72,1: Yes,2: Meet workload
+Samir,Thomas-Chandra,samir.thomas.chandra@students.example,2: Man,"3 : Mixed, or multiple ethic groups",65,1: Yes,1: Exceed workload
+Nikhil,Islam,nikhil.islam@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Aditya,Huang,aditya.huang@students.example,2: Man,"1: Asian, or Asian British",59,1: Yes,2: Meet workload
+Bilal,Chen,bilal.chen@students.example,2: Man,"1: Asian, or Asian British",65,1: Yes,2: Meet workload
+Edward,Walker,edward.walker@students.example,2: Man,4: White,66,1: Yes,2: Meet workload
+Anika,Malik,anika.malik@students.example,1: Woman,"1: Asian, or Asian British",57,1: Yes,2: Meet workload
+Hamza,Hamdan,hamza.hamdan@students.example,2: Man,5 : Other ethnic group (e.g. Arab),51,1: Yes,2: Meet workload
+Jin,Kumar,jin.kumar@students.example,0,"1: Asian, or Asian British",51,1: Yes,2: Meet workload
+Rohan,Rao,rohan.rao@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Tariq,Das,tariq.das@students.example,2: Man,"1: Asian, or Asian British",53,1: Yes,2: Meet workload
+Faisal,Das,faisal.das@students.example,2: Man,"1: Asian, or Asian British",82,1: Yes,2: Meet workload
+Elena,Garcia-Lee,elena.garcia.lee@students.example,0,"3 : Mixed, or multiple ethic groups",78,1: Yes,2: Meet workload
+Mohammed,Gupta,mohammed.gupta@students.example,2: Man,"1: Asian, or Asian British",79,1: Yes,2: Meet workload
+Jun,Desai,jun.desai@students.example,2: Man,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Kenji,Zhang,kenji.zhang@students.example,2: Man,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+Rayan,Farah,rayan.farah@students.example,3: Other/Non-binary,5 : Other ethnic group (e.g. Arab),70,1: Yes,2: Meet workload
+Faisal,Huang,faisal.huang@students.example,2: Man,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Hiro,Haq,hiro.haq@students.example,2: Man,"1: Asian, or Asian British",57,1: Yes,2: Meet workload
+Lucy,Roberts,lucy.roberts@students.example,1: Woman,4: White,70,1: Yes,2: Meet workload
+Hiba,Saleh,hiba.saleh@students.example,1: Woman,0,43,1: Yes,2: Meet workload
+Kenji,Lam,kenji.lam@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Tara,Kumar,tara.kumar@students.example,1: Woman,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Lucy,Martin,lucy.martin@students.example,1: Woman,4: White,75,1: Yes,2: Meet workload
+Michael,Owusu,michael.owusu@students.example,2: Man,0,70,1: Yes,2: Meet workload
+Tara,Ahmed,tara.ahmed@students.example,0,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Kwame,Eze,kwame.eze@students.example,2: Man,0,68,1: Yes,2: Meet workload
+Adam,Martin,adam.martin@students.example,2: Man,4: White,51,1: Yes,2: Meet workload
+Minho,Bhat,minho.bhat@students.example,0,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Tara,Islam,tara.islam@students.example,1: Woman,"1: Asian, or Asian British",72,1: Yes,2: Meet workload
+Sameer,Rao,sameer.rao@students.example,2: Man,"1: Asian, or Asian British",67,1: Yes,1: Exceed workload
+Thomas,Cooper,thomas.cooper@students.example,2: Man,4: White,63,1: Yes,2: Meet workload
+Aditya,Rao,aditya.rao@students.example,2: Man,"1: Asian, or Asian British",65,1: Yes,2: Meet workload
+Ren,Park,ren.park@students.example,0,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Emeka,Grant,emeka.grant@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",63,1: Yes,2: Meet workload
+Sanjay,Iqbal,sanjay.iqbal@students.example,2: Man,"1: Asian, or Asian British",62,1: Yes,2: Meet workload
+Tariq,Nguyen,tariq.nguyen@students.example,2: Man,"1: Asian, or Asian British",71,1: Yes,2: Meet workload
+Zara,Ali,zara.ali@students.example,1: Woman,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+George,Hall,george.hall@students.example,2: Man,4: White,68,1: Yes,2: Meet workload
+Chidi,Mensah,chidi.mensah@students.example,2: Man,0,68,1: Yes,2: Meet workload
+Diya,Banerjee,diya.banerjee@students.example,1: Woman,"1: Asian, or Asian British",77,1: Yes,2: Meet workload
+Lakshmi,Bhat,lakshmi.bhat@students.example,1: Woman,0,78,1: Yes,2: Meet workload
+Sameer,Li,sameer.li@students.example,2: Man,"1: Asian, or Asian British",67,1: Yes,2: Meet workload
+Rohan,Singh,rohan.singh@students.example,2: Man,"1: Asian, or Asian British",68,1: Yes,2: Meet workload
+Nikhil,Desai,nikhil.desai@students.example,2: Man,"1: Asian, or Asian British",75,1: Yes,2: Meet workload
+Harini,Nguyen,harini.nguyen@students.example,1: Woman,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+Amal,Mansour,amal.mansour@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),68,1: Yes,1: Exceed workload
+Adel,Saleh,adel.saleh@students.example,2: Man,5 : Other ethnic group (e.g. Arab),72,1: Yes,2: Meet workload
+Aarav,Sharma,aarav.sharma@students.example,2: Man,"1: Asian, or Asian British",54,1: Yes,2: Meet workload
+Aarav,Kapoor,aarav.kapoor@students.example,2: Man,"1: Asian, or Asian British",54,1: Yes,2: Meet workload
+Alexander,Wilson,alexander.wilson@students.example,2: Man,4: White,63,1: Yes,2: Meet workload
+Lina,Hakim,lina.hakim@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),55,1: Yes,2: Meet workload
+Yusuf,Park,yusuf.park@students.example,2: Man,"1: Asian, or Asian British",64,1: Yes,2: Meet workload
+Dev,Rao,dev.rao@students.example,2: Man,"1: Asian, or Asian British",55,1: Yes,3: Reduce workload
+Hala,Mansour,hala.mansour@students.example,0,5 : Other ethnic group (e.g. Arab),67,1: Yes,2: Meet workload
+Dana,Mansour,dana.mansour@students.example,0,5 : Other ethnic group (e.g. Arab),80,1: Yes,2: Meet workload
+Farah,Banerjee,farah.banerjee@students.example,1: Woman,"1: Asian, or Asian British",64,1: Yes,2: Meet workload
+Edward,Hughes,edward.hughes@students.example,2: Man,4: White,67,1: Yes,2: Meet workload
+Bilal,Jain,bilal.jain@students.example,2: Man,"1: Asian, or Asian British",59,1: Yes,2: Meet workload
+Faisal,Wong,faisal.wong@students.example,2: Man,"1: Asian, or Asian British",76,1: Yes,2: Meet workload
+Alicia,Okafor,alicia.okafor@students.example,1: Woman,"2 : Black, Black British, Caribbean, or African",69,1: Yes,2: Meet workload
+Zara,Khan,zara.khan@students.example,0,0,43,1: Yes,2: Meet workload
+Dev,Ng,dev.ng@students.example,2: Man,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Akash,Ahmed,akash.ahmed@students.example,2: Man,"1: Asian, or Asian British",80,1: Yes,2: Meet workload
+Zoe,Ali-Jones,zoe.ali.jones@students.example,1: Woman,0,65,1: Yes,2: Meet workload
+Ryan,Roberts-Kim,ryan.roberts.kim@students.example,2: Man,0,78,1: Yes,1: Exceed workload
+Zaid,Saleh,zaid.saleh@students.example,2: Man,5 : Other ethnic group (e.g. Arab),61,1: Yes,2: Meet workload
+Aarav,Nguyen,aarav.nguyen@students.example,2: Man,"1: Asian, or Asian British",59,1: Yes,1: Exceed workload
+Elias,Evans-Khan,elias.evans.khan@students.example,2: Man,"3 : Mixed, or multiple ethic groups",83,1: Yes,1: Exceed workload
+Ravi,Choi,ravi.choi@students.example,2: Man,"1: Asian, or Asian British",68,1: Yes,2: Meet workload
+Kavya,Li,kavya.li@students.example,1: Woman,"1: Asian, or Asian British",59,2: No,2: Meet workload
+Priya,Lim,priya.lim@students.example,1: Woman,"1: Asian, or Asian British",82,1: Yes,2: Meet workload
+Sameer,Wong,sameer.wong@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Mahmoud,Haddad,mahmoud.haddad@students.example,2: Man,5 : Other ethnic group (e.g. Arab),64,1: Yes,1: Exceed workload
+Dev,Islam,dev.islam@students.example,2: Man,"1: Asian, or Asian British",72,1: Yes,2: Meet workload
+Dev,Huang,dev.huang@students.example,2: Man,"1: Asian, or Asian British",59,1: Yes,0
+Mariam,Hamdan,mariam.hamdan@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),63,1: Yes,2: Meet workload
+Yasin,Youssef,yasin.youssef@students.example,2: Man,5 : Other ethnic group (e.g. Arab),66,1: Yes,2: Meet workload
+Eleanor,Thomas,eleanor.thomas@students.example,1: Woman,4: White,65,1: Yes,2: Meet workload
+Emma,Harris,emma.harris@students.example,1: Woman,4: White,63,1: Yes,2: Meet workload
+Arjun,Chandra,arjun.chandra@students.example,2: Man,"1: Asian, or Asian British",54,1: Yes,2: Meet workload
+Tendai,Okafor,tendai.okafor@students.example,2: Man,0,48,1: Yes,2: Meet workload
+Omar,Abbas,omar.abbas@students.example,2: Man,5 : Other ethnic group (e.g. Arab),65,1: Yes,2: Meet workload
+Aarav,Mehta,aarav.mehta@students.example,0,"1: Asian, or Asian British",80,1: Yes,1: Exceed workload
+Farah,Sharma,farah.sharma@students.example,1: Woman,"1: Asian, or Asian British",65,1: Yes,2: Meet workload
+Omar,Banerjee,omar.banerjee@students.example,2: Man,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Tariq,Desai,tariq.desai@students.example,2: Man,"1: Asian, or Asian British",46,1: Yes,2: Meet workload
+Ravi,Lim,ravi.lim@students.example,2: Man,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Wei,Choi,wei.choi@students.example,2: Man,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+James,White,james.white@students.example,2: Man,4: White,67,1: Yes,2: Meet workload
+Rami,Mansour,rami.mansour@students.example,2: Man,5 : Other ethnic group (e.g. Arab),71,1: Yes,1: Exceed workload
+Hiro,Patel,hiro.patel@students.example,2: Man,"1: Asian, or Asian British",68,1: Yes,3: Reduce workload
+Anika,Banerjee,anika.banerjee@students.example,1: Woman,0,70,1: Yes,1: Exceed workload
+Ayo,Boateng,ayo.boateng@students.example,0,"2 : Black, Black British, Caribbean, or African",69,1: Yes,2: Meet workload
+Akash,Choi,akash.choi@students.example,2: Man,"1: Asian, or Asian British",46,1: Yes,2: Meet workload
+Chen,Choi,chen.choi@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,1: Exceed workload
+Victoria,Lewis,victoria.lewis@students.example,1: Woman,4: White,67,1: Yes,2: Meet workload
+Farah,Yamamoto,farah.yamamoto@students.example,1: Woman,"1: Asian, or Asian British",56,1: Yes,2: Meet workload
+Sakura,Banerjee,sakura.banerjee@students.example,1: Woman,"1: Asian, or Asian British",54,1: Yes,2: Meet workload
+Hassan,Gupta,hassan.gupta@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Lina,Farah,lina.farah@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),70,1: Yes,1: Exceed workload
+Ravi,Malik,ravi.malik@students.example,2: Man,"1: Asian, or Asian British",62,1: Yes,2: Meet workload
+Harini,Lim,harini.lim@students.example,1: Woman,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Hiro,Khan,hiro.khan@students.example,2: Man,"1: Asian, or Asian British",90,1: Yes,2: Meet workload
+Karan,Chandra,karan.chandra@students.example,2: Man,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Florence,Clark,florence.clark@students.example,1: Woman,4: White,69,1: Yes,2: Meet workload
+Tarek,Nasser,tarek.nasser@students.example,2: Man,0,60,1: Yes,2: Meet workload
+Rahul,Shah,rahul.shah@students.example,2: Man,"1: Asian, or Asian British",77,1: Yes,1: Exceed workload
+Freya,Lewis,freya.lewis@students.example,1: Woman,0,58,1: Yes,2: Meet workload
+William,Miller,william.miller@students.example,2: Man,4: White,66,1: Yes,2: Meet workload
+Alexander,Green,alexander.green@students.example,2: Man,4: White,72,1: Yes,2: Meet workload
+Tariq,Rahman,tariq.rahman@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Matthew,Harris,matthew.harris@students.example,2: Man,4: White,80,1: Yes,2: Meet workload
+Hassan,Huang,hassan.huang@students.example,2: Man,"1: Asian, or Asian British",52,1: Yes,2: Meet workload
+Minho,Rahman,minho.rahman@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+Faisal,Hossain,faisal.hossain@students.example,2: Man,"1: Asian, or Asian British",61,1: Yes,2: Meet workload
+Sophie,Clark,sophie.clark@students.example,1: Woman,4: White,82,1: Yes,2: Meet workload
+Amira,Evans-Khan,amira.evans.khan@students.example,1: Woman,"3 : Mixed, or multiple ethic groups",68,1: Yes,2: Meet workload
+Ari,Iqbal,ari.iqbal@students.example,0,"1: Asian, or Asian British",72,1: Yes,2: Meet workload
+Jae,Wang,jae.wang@students.example,2: Man,"1: Asian, or Asian British",67,1: Yes,2: Meet workload
+Zachary,Edwards,zachary.edwards@students.example,2: Man,4: White,72,1: Yes,2: Meet workload
+Aarav,Banerjee,aarav.banerjee@students.example,2: Man,"1: Asian, or Asian British",72,1: Yes,2: Meet workload
+Priya,Park,priya.park@students.example,1: Woman,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Isaac,Garcia-Lee,isaac.garcia.lee@students.example,2: Man,0,72,1: Yes,2: Meet workload
+Haruto,Lim,haruto.lim@students.example,2: Man,"1: Asian, or Asian British",62,1: Yes,2: Meet workload
+Ishita,Li,ishita.li@students.example,1: Woman,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Obinna,Thomas,obinna.thomas@students.example,2: Man,0,59,1: Yes,1: Exceed workload
+Oscar,Lewis,oscar.lewis@students.example,2: Man,4: White,78,1: Yes,2: Meet workload
+Hiro,Yamamoto,hiro.yamamoto@students.example,2: Man,"1: Asian, or Asian British",55,1: Yes,1: Exceed workload
+Karan,Desai,karan.desai@students.example,2: Man,"1: Asian, or Asian British",64,1: Yes,2: Meet workload
+Marcus,Ali-Jones,marcus.ali.jones@students.example,2: Man,"3 : Mixed, or multiple ethic groups",62,1: Yes,2: Meet workload
+Minho,Huang,minho.huang@students.example,2: Man,"1: Asian, or Asian British",56,2: No,2: Meet workload
+Winston,Campbell,winston.campbell@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",63,1: Yes,1: Exceed workload
+Hiro,Li,hiro.li@students.example,2: Man,"1: Asian, or Asian British",68,1: Yes,2: Meet workload
+Aarav,Kim,aarav.kim@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Sameer,Huang,sameer.huang@students.example,2: Man,"1: Asian, or Asian British",64,1: Yes,2: Meet workload
+Omar,Yamamoto,omar.yamamoto@students.example,2: Man,"1: Asian, or Asian British",75,1: Yes,2: Meet workload
+Fadi,Haddad,fadi.haddad@students.example,2: Man,5 : Other ethnic group (e.g. Arab),63,1: Yes,2: Meet workload
+Nadine,Saleh,nadine.saleh@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),67,1: Yes,2: Meet workload
+Tariq,Mehta,tariq.mehta@students.example,2: Man,"1: Asian, or Asian British",67,1: Yes,2: Meet workload
+Winston,Boateng,winston.boateng@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",71,1: Yes,2: Meet workload
+Sam,Kumar,sam.kumar@students.example,3: Other/Non-binary,"1: Asian, or Asian British",67,1: Yes,2: Meet workload
+Naomi,Evans-Khan,naomi.evans.khan@students.example,1: Woman,"3 : Mixed, or multiple ethic groups",80,1: Yes,2: Meet workload
+Nikhil,Lim,nikhil.lim@students.example,2: Man,"1: Asian, or Asian British",56,1: Yes,2: Meet workload
+Tendai,Robinson,tendai.robinson@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",68,1: Yes,2: Meet workload
+Georgia,Hughes,georgia.hughes@students.example,1: Woman,4: White,67,1: Yes,2: Meet workload
+Maya,Brown-Chen,maya.brown.chen@students.example,1: Woman,"3 : Mixed, or multiple ethic groups",60,1: Yes,2: Meet workload
+Oliver,Miller,oliver.miller@students.example,2: Man,4: White,73,1: Yes,1: Exceed workload
+Dev,Shah,dev.shah@students.example,2: Man,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Rahul,Nguyen,rahul.nguyen@students.example,2: Man,"1: Asian, or Asian British",51,1: Yes,2: Meet workload
+Alice,Baker,alice.baker@students.example,1: Woman,4: White,60,1: Yes,2: Meet workload
+Rohan,Bhat,rohan.bhat@students.example,2: Man,"1: Asian, or Asian British",67,1: Yes,2: Meet workload
+Tarek,Darwish,tarek.darwish@students.example,2: Man,5 : Other ethnic group (e.g. Arab),53,1: Yes,2: Meet workload
+Charles,Hall,charles.hall@students.example,2: Man,4: White,71,1: Yes,2: Meet workload
+Hala,Darwish,hala.darwish@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),62,1: Yes,2: Meet workload
+Hadi,Darwish,hadi.darwish@students.example,2: Man,5 : Other ethnic group (e.g. Arab),75,1: Yes,2: Meet workload
+Mei,Ng,mei.ng@students.example,1: Woman,"1: Asian, or Asian British",72,1: Yes,2: Meet workload
+Yuna,Shah,yuna.shah@students.example,1: Woman,"1: Asian, or Asian British",80,1: Yes,2: Meet workload
+Raj,Banerjee,raj.banerjee@students.example,2: Man,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+Aditya,Choi,aditya.choi@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Jae,Banerjee,jae.banerjee@students.example,2: Man,"1: Asian, or Asian British",56,1: Yes,2: Meet workload
+Karim,Farah,karim.farah@students.example,2: Man,5 : Other ethnic group (e.g. Arab),73,1: Yes,2: Meet workload
+Alex,Taylor-Desai,alex.taylor.desai@students.example,2: Man,0,59,1: Yes,2: Meet workload
+Ananya,Iqbal,ananya.iqbal@students.example,1: Woman,"1: Asian, or Asian British",81,1: Yes,1: Exceed workload
+Zachary,Baker,zachary.baker@students.example,2: Man,4: White,61,1: Yes,2: Meet workload
+Sameer,Iqbal,sameer.iqbal@students.example,2: Man,"1: Asian, or Asian British",57,1: Yes,2: Meet workload
+Aisha,Shah,aisha.shah@students.example,1: Woman,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+Akash,Lee,akash.lee@students.example,2: Man,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Alexander,Brown,alexander.brown@students.example,2: Man,4: White,59,1: Yes,1: Exceed workload
+Amir,Rahim,amir.rahim@students.example,2: Man,0,43,1: Yes,2: Meet workload
+Fadi,Abdallah,fadi.abdallah@students.example,2: Man,5 : Other ethnic group (e.g. Arab),72,1: Yes,2: Meet workload
+Hamza,Darwish,hamza.darwish@students.example,2: Man,5 : Other ethnic group (e.g. Arab),66,1: Yes,2: Meet workload
+Amir,Mansour,amir.mansour@students.example,2: Man,5 : Other ethnic group (e.g. Arab),68,1: Yes,2: Meet workload
+Rahul,Wang,rahul.wang@students.example,2: Man,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Samir,Brown-Chen,samir.brown.chen@students.example,2: Man,0,66,1: Yes,2: Meet workload
+Yuna,Ng,yuna.ng@students.example,1: Woman,"1: Asian, or Asian British",53,1: Yes,2: Meet workload
+Aisha,Iqbal,aisha.iqbal@students.example,1: Woman,"1: Asian, or Asian British",68,1: Yes,2: Meet workload
+Mei,Singh,mei.singh@students.example,1: Woman,"1: Asian, or Asian British",59,1: Yes,1: Exceed workload
+Oscar,Brown,oscar.brown@students.example,2: Man,4: White,72,1: Yes,2: Meet workload
+Fadi,Mansour,fadi.mansour@students.example,2: Man,5 : Other ethnic group (e.g. Arab),79,1: Yes,2: Meet workload
+Eleanor,Evans,eleanor.evans@students.example,1: Woman,4: White,65,1: Yes,2: Meet workload
+Rahul,Lim,rahul.lim@students.example,2: Man,"1: Asian, or Asian British",59,1: Yes,2: Meet workload
+Rohan,Khan,rohan.khan@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+Faisal,Zhang,faisal.zhang@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Fadi,Youssef,fadi.youssef@students.example,2: Man,5 : Other ethnic group (e.g. Arab),40,1: Yes,2: Meet workload
+Samuel,Hall,samuel.hall@students.example,2: Man,4: White,80,1: Yes,2: Meet workload
+Fadi,Abbas,fadi.abbas@students.example,2: Man,5 : Other ethnic group (e.g. Arab),58,1: Yes,1: Exceed workload
+Sameer,Chandra,sameer.chandra@students.example,2: Man,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Adel,Hakim,adel.hakim@students.example,2: Man,5 : Other ethnic group (e.g. Arab),66,1: Yes,2: Meet workload
+Joseph,Lewis,joseph.lewis@students.example,2: Man,4: White,53,1: Yes,2: Meet workload
+Henry,Taylor,henry.taylor@students.example,2: Man,4: White,63,1: Yes,2: Meet workload
+Fadi,Rahim,fadi.rahim@students.example,2: Man,5 : Other ethnic group (e.g. Arab),45,1: Yes,0
+Jay,Smith-Nguyen,jay.smith.nguyen@students.example,2: Man,"3 : Mixed, or multiple ethic groups",54,1: Yes,1: Exceed workload
+Kenji,Jain,kenji.jain@students.example,2: Man,"1: Asian, or Asian British",60,1: Yes,2: Meet workload
+Joseph,Martin,joseph.martin@students.example,2: Man,4: White,70,1: Yes,2: Meet workload
+George,Roberts,george.roberts@students.example,2: Man,4: White,70,1: Yes,2: Meet workload
+Minji,Chandra,minji.chandra@students.example,1: Woman,"1: Asian, or Asian British",48,1: Yes,2: Meet workload
+Mohammed,Wang,mohammed.wang@students.example,2: Man,"1: Asian, or Asian British",58,1: Yes,2: Meet workload
+Ahmed,Chang,ahmed.chang@students.example,2: Man,"1: Asian, or Asian British",48,1: Yes,1: Exceed workload
+Rohan,Yamamoto,rohan.yamamoto@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Sami,Salim,sami.salim@students.example,2: Man,5 : Other ethnic group (e.g. Arab),83,1: Yes,2: Meet workload
+Callum,White,callum.white@students.example,2: Man,0,74,1: Yes,2: Meet workload
+Ahmed,Zhang,ahmed.zhang@students.example,2: Man,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Isabel,Wilson,isabel.wilson@students.example,1: Woman,4: White,55,1: Yes,2: Meet workload
+Adel,Fahmy,adel.fahmy@students.example,2: Man,5 : Other ethnic group (e.g. Arab),64,1: Yes,2: Meet workload
+Sophie,Hughes,sophie.hughes@students.example,1: Woman,4: White,57,1: Yes,1: Exceed workload
+Chen,Li,chen.li@students.example,2: Man,"1: Asian, or Asian British",65,1: Yes,2: Meet workload
+George,Martin,george.martin@students.example,0,4: White,72,1: Yes,2: Meet workload
+Mohammed,Li,mohammed.li@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+Nathan,Hall-Wong,nathan.hall.wong@students.example,2: Man,0,66,1: Yes,1: Exceed workload
+Akash,Shah,akash.shah@students.example,2: Man,"1: Asian, or Asian British",68,1: Yes,2: Meet workload
+Zoya,Li,zoya.li@students.example,1: Woman,"1: Asian, or Asian British",61,1: Yes,1: Exceed workload
+Amara,Owusu,amara.owusu@students.example,1: Woman,"2 : Black, Black British, Caribbean, or African",64,1: Yes,3: Reduce workload
+Emma,White,emma.white@students.example,1: Woman,4: White,72,1: Yes,2: Meet workload
+Kenji,Shah,kenji.shah@students.example,2: Man,"1: Asian, or Asian British",55,1: Yes,2: Meet workload
+Haruto,Li,haruto.li@students.example,2: Man,"1: Asian, or Asian British",63,1: Yes,2: Meet workload
+Malik,Mensah,malik.mensah@students.example,2: Man,"2 : Black, Black British, Caribbean, or African",74,1: Yes,2: Meet workload
+Rohan,Das,rohan.das@students.example,0,0,70,1: Yes,2: Meet workload
+Hassan,Islam,hassan.islam@students.example,2: Man,"1: Asian, or Asian British",48,1: Yes,1: Exceed workload
+Aditya,Banerjee,aditya.banerjee@students.example,2: Man,"1: Asian, or Asian British",54,1: Yes,2: Meet workload
+Walid,Youssef,walid.youssef@students.example,2: Man,5 : Other ethnic group (e.g. Arab),74,1: Yes,2: Meet workload
+Rohan,Chen,rohan.chen@students.example,2: Man,"1: Asian, or Asian British",73,1: Yes,2: Meet workload
+Walid,Nasser,walid.nasser@students.example,2: Man,5 : Other ethnic group (e.g. Arab),63,1: Yes,2: Meet workload
+Joseph,Thomas,joseph.thomas@students.example,2: Man,4: White,55,1: Yes,1: Exceed workload
+Arjun,Mehta,arjun.mehta@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+Joseph,Green,joseph.green@students.example,2: Man,4: White,74,1: Yes,2: Meet workload
+Matthew,Davies,matthew.davies@students.example,2: Man,4: White,76,2: No,2: Meet workload
+Minho,Lim,minho.lim@students.example,2: Man,"1: Asian, or Asian British",59,1: Yes,2: Meet workload
+Nabil,Salim,nabil.salim@students.example,2: Man,0,64,1: Yes,2: Meet workload
+Meera,Kim,meera.kim@students.example,1: Woman,"1: Asian, or Asian British",66,1: Yes,2: Meet workload
+Kavya,Park,kavya.park@students.example,1: Woman,"1: Asian, or Asian British",67,1: Yes,2: Meet workload
+Alex,Clark,alex.clark@students.example,3: Other/Non-binary,4: White,75,1: Yes,2: Meet workload
+Amal,Nasser,amal.nasser@students.example,0,5 : Other ethnic group (e.g. Arab),56,1: Yes,2: Meet workload
+Tariq,Kumar,tariq.kumar@students.example,2: Man,"1: Asian, or Asian British",62,1: Yes,2: Meet workload
+Tendai,Diallo,tendai.diallo@students.example,2: Man,0,66,1: Yes,2: Meet workload
+Diya,Lee,diya.lee@students.example,1: Woman,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+Jia,Wong,jia.wong@students.example,1: Woman,"1: Asian, or Asian British",64,1: Yes,2: Meet workload
+Ravi,Kim,ravi.kim@students.example,2: Man,"1: Asian, or Asian British",63,1: Yes,1: Exceed workload
+Hiba,Darwish,hiba.darwish@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),72,1: Yes,2: Meet workload
+Hassan,Yamamoto,hassan.yamamoto@students.example,2: Man,"1: Asian, or Asian British",70,1: Yes,2: Meet workload
+Aarav,Ng,aarav.ng@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,1: Exceed workload
+Karan,Bhat,karan.bhat@students.example,2: Man,"1: Asian, or Asian British",69,1: Yes,2: Meet workload
+Mariam,Abbas,mariam.abbas@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),62,1: Yes,2: Meet workload
+Lana,Hamdan,lana.hamdan@students.example,1: Woman,5 : Other ethnic group (e.g. Arab),58,1: Yes,2: Meet workload
+Mariam,Darwish,mariam.darwish@students.example,1: Woman,0,73,1: Yes,2: Meet workload
