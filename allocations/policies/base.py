@@ -24,7 +24,7 @@ class StudentView:
 class Violation:
     """One unmet rule, explained in plain language."""
 
-    rule: str                # the rule's key, e.g. "team_size"
+    rule: str                # the rule's key, e.g. 'team_size'
     hard: bool
     priority: int            # 1 = most important
     team: str | None         # team name, or None for whole-allocation problems
@@ -38,11 +38,11 @@ Teams = dict[str, list[StudentView]]
 class Rule:
     """Base class for an allocation rule that can be hard or soft."""
 
-    key = "base"
+    key = 'base'
 
     def __init__(self, hard: bool, priority: int = 1):
         if priority not in PRIORITIES:
-            raise ValueError(f"Priority must be one of {PRIORITIES}, not {priority}.")
+            raise ValueError(f'Priority must be one of {PRIORITIES}, not {priority}.')
         self.hard = hard
         self.priority = priority
 
@@ -65,11 +65,11 @@ class Rule:
         return {}
 
     def to_dict(self) -> dict:
-        return {"key": self.key, "hard": self.hard, "priority": self.priority, **self.params()}
+        return {'key': self.key, 'hard': self.hard, 'priority': self.priority, **self.params()}
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Rule":
-        settings = {name: value for name, value in data.items() if name != "key"}
+    def from_dict(cls, data: dict) -> 'Rule':
+        settings = {name: value for name, value in data.items() if name != 'key'}
         return cls(**settings)
 
     def violation(self, team: str | None, message: str, amount: float = 1.0) -> Violation:
@@ -80,4 +80,4 @@ class Rule:
         return type(self) is type(other) and self.to_dict() == other.to_dict()
 
     def __repr__(self):
-        return f"{type(self).__name__}({self.to_dict()})"
+        return f'{type(self).__name__}({self.to_dict()})'
