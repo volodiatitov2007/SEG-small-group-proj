@@ -7,13 +7,14 @@
   <section class="card card-body mb-3">
     <h2 class="h5">Summary</h2>
     <p class="mb-1">{{ allocated_count }} allocated students in {{ team_count }} teams.</p>
-    <p class="mb-1">Policy used: {{ run.policy_snapshot }}</p>
+    <p class="mb-1">Policy used:</p>
+    {% if policy_lines %}<ul>{% for line in policy_lines %}<li>{{ line }}</li>{% endfor %}</ul>{% else %}<p class="text-muted">No policy details recorded.</p>{% endif %}
     {% if unmet_rules %}<p class="mb-0">{{ unmet_rules|length }} unmet rule{{ unmet_rules|length|pluralize }}.</p>
     {% else %}<p class="mb-0">All soft rules met.</p>{% endif %}
   </section>
   <section class="mb-4"><h2 class="h5">Unmet rules</h2>
     {% if unmet_rules %}<ul class="list-group">{% for violation in unmet_rules %}
-      <li class="list-group-item list-group-item-warning">{% if violation.text %}{{ violation.text }}{% else %}{{ violation }}{% endif %}</li>
+      <li class="list-group-item list-group-item-warning">{{ violation.message }}</li>
     {% endfor %}</ul>{% else %}<p class="text-muted">All soft rules met.</p>{% endif %}
   </section>
   <h2 class="h5">Teams</h2>
