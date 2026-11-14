@@ -69,7 +69,15 @@ class FeasibilityTestCase(TestCase):
         result = allocate(make_students(8), [FakeGenderRule()])
         self.assertEqual(result.status, 'infeasible')
         self.assertEqual(result.message,
-                         'The policy has no team size rule, so the number of teams is unknown.')
+                         'The policy has no team size rule. Add one with a minimum and maximum '
+                         'team size, then run the allocation again.')
+        assert_empty_non_ok_result(self, result)
+
+    def test_a_hard_size_rule_decides_feasibility_even_when_a_soft_one_could_allocate(self):
+        soft_size_rule = TeamSizeRule(min_size=4, max_size=4, hard=False, priority=2)
+        result = allocate(make_students(7), [self.size_rule, soft_size_rule])
+        self.assertEqual(result.status, 'infeasible')
+        self.assertEqual(result.message, '7 students cannot be split into teams of 4-5.')
         assert_empty_non_ok_result(self, result)
 
     def test_duplicate_student_id_raises_value_error(self):

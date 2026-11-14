@@ -47,14 +47,17 @@ def allocate(students: list[StudentView], rules: list[Rule], time_limit: float =
     size_rules = sorted((rule for rule in rules if rule.key == SIZE_RULE_KEY), key=lambda rule: not rule.hard)
     size_rule = size_rules[0] if size_rules else None  # a hard size rule shapes the teams before a soft one
     if size_rule is None:
-        return finish(INFEASIBLE, 'The policy has no team size rule, so the number of teams is unknown.')
+        return finish(INFEASIBLE, 'The policy has no team size rule. Add one with a minimum and maximum '
+                                  'team size, then run the allocation again.')
     min_size, max_size = size_rule.min_size, size_rule.max_size
-    if not team_size_feasible(len(students), min_size, max_size):
+    if not students:
+        return finish(INFEASIBLE, team_size_problem(0, min_size, max_size))
+    if size_rule.hard and not team_size_feasible(len(students), min_size, max_size):
         return finish(INFEASIBLE, team_size_problem(len(students), min_size, max_size))
 
     for rule in rules:
         rule.prepare(list(students))
-    teams = _greedy_start(students, ceil(len(students) / max_size))
+    teams = _greedy_start(students, _team_count(len(students), min_size, max_size))
     _local_search(teams, rules, min_size, max_size, deadline, random.Random(seed), max_steps)
 
     violations = evaluate(rules, teams)
@@ -65,6 +68,17 @@ def allocate(students: list[StudentView], rules: list[Rule], time_limit: float =
     if violations:
         message += f' {len(violations)} preference(s) could not be met.'
     return finish(OK, message, teams, violations)
+
+
+def _team_count(student_count: int, min_size: int, max_size: int) -> int:
+    """Return the fewest teams that fit the size range, or the count that breaks it least when none fits."""
+    if team_size_feasible(student_count, min_size, max_size):
+        return ceil(student_count / max_size)
+    def size_gap(count):
+        small, extra = divmod(student_count, count)
+        sizes = [small + 1] * extra + [small] * (count - extra)
+        return sum(max(0, min_size - size) + max(0, size - max_size) for size in sizes)
+    return min(range(1, student_count + 1), key=size_gap)
 
 
 def _greedy_start(students: list[StudentView], team_count: int) -> Teams:

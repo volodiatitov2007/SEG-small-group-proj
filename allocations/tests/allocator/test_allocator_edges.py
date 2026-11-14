@@ -1,31 +1,77 @@
 from django.test import TestCase
 
-from allocations.allocator import INFEASIBLE, TIMEOUT, _greedy_start, allocate
+from allocations.allocator import INFEASIBLE, TIMEOUT, _greedy_start, _team_count, allocate
 from allocations.policies import TeamSizeRule
-from allocations.policies.evaluator import is_valid
+from allocations.policies.evaluator import evaluate, is_valid
 from allocations.tests.allocator.helpers import (
     AlwaysBrokenHardRule, CountingRule, FakeGenderRule, FirstTeamSizePenaltyRule,
-    RecordingRule, assert_ok_invariants, make_students,
+    RecordingRule, assert_empty_non_ok_result, assert_ok_invariants, make_students,
 )
 
 
 class SoftOnlySizeRuleTestCase(TestCase):
     """Tests that a soft team size rule with no hard one still shapes the teams."""
 
+    def setUp(self):
+        self.rule = TeamSizeRule(min_size=4, max_size=5, hard=False, priority=2)
+
     def test_soft_only_size_rule_shapes_teams_of_nine_students(self):
-        rule = TeamSizeRule(min_size=4, max_size=5, hard=False, priority=2)
-        students = make_students(9)
-        result = allocate(students, [rule])
+        result = allocate(make_students(9), [self.rule])
         self.assertEqual(result.status, 'ok')
         self.assertEqual([len(members) for members in result.teams.values()], [5, 4])
         self.assertEqual(result.violations, [])
         self.assertEqual(result.message, 'Allocated 9 students into 2 teams.')
 
-    def test_soft_only_size_rule_still_gates_feasibility(self):
+    def test_soft_only_size_rule_still_allocates_when_no_split_fits_the_range(self):
         rule = TeamSizeRule(min_size=4, max_size=4, hard=False, priority=2)
         result = allocate(make_students(9), [rule])
-        self.assertEqual(result.status, INFEASIBLE)
-        self.assertEqual(result.message, '9 students cannot be split into teams of 4-4.')
+        self.assertEqual(result.status, 'ok')
+        self.assertEqual([len(members) for members in result.teams.values()], [5, 4])
+        [violation] = result.violations
+        self.assertEqual(violation.rule, 'team_size')
+        self.assertEqual(violation.team, 'Team 1')
+        self.assertEqual(violation.message, 'Team 1 has 5 students; the maximum is 4.')
+        self.assertFalse(violation.hard)
+
+    def test_seven_students_with_a_soft_only_size_rule_allocate_into_teams_of_4_and_3(self):
+        result = allocate(make_students(7), [self.rule])
+        self.assertEqual(result.status, 'ok')
+        self.assertEqual([len(members) for members in result.teams.values()], [4, 3])
+        [violation] = result.violations
+        self.assertEqual(violation.rule, 'team_size')
+        self.assertEqual(violation.team, 'Team 2')
+        self.assertEqual(violation.message, 'Team 2 has 3 students; the minimum is 4.')
+        self.assertFalse(violation.hard)
+
+    def test_eleven_students_with_a_soft_only_size_rule_allocate_with_soft_violations(self):
+        students = make_students(11)
+        result = allocate(students, [self.rule])
+        self.assertEqual(result.status, 'ok')
+        allocated_ids = sorted(student.id for members in result.teams.values()
+                               for student in members)
+        self.assertEqual(allocated_ids, sorted(student.id for student in students))
+        self.assertEqual(result.violations, evaluate([self.rule], result.teams))
+
+    def test_a_soft_only_size_rule_with_no_students_is_infeasible(self):
+        result = allocate([], [self.rule])
+        self.assertEqual(result.status, 'infeasible')
+        self.assertEqual(result.message, 'There are no students to allocate.')
+        assert_empty_non_ok_result(self, result)
+
+
+class TeamCountTestCase(TestCase):
+    """Tests how many teams the allocator picks for a cohort and size range."""
+
+    def test_feasible_ranges_pick_the_fewest_teams_that_fit_the_maximum(self):
+        for student_count, team_count in ((8, 2), (9, 2), (300, 60)):
+            with self.subTest(student_count=student_count):
+                self.assertEqual(_team_count(student_count, 4, 5), team_count)
+
+    def test_impossible_ranges_pick_the_count_that_breaks_the_range_least(self):
+        # 11 = 6+5 and 11 = 4+4+3 tie on the gap, so the fewest teams wins.
+        for student_count, team_count in ((7, 2), (11, 2), (3, 1), (1, 1)):
+            with self.subTest(student_count=student_count):
+                self.assertEqual(_team_count(student_count, 4, 5), team_count)
 
 
 class TwoHardSizeRulesTestCase(TestCase):
@@ -109,6 +155,12 @@ class PrepareOrderingTestCase(TestCase):
     def test_prepare_is_not_called_when_the_cohort_is_infeasible(self):
         recording = RecordingRule()
         result = allocate(make_students(7), [TeamSizeRule(min_size=4, max_size=5), recording])
+        self.assertEqual(result.status, INFEASIBLE)
+        self.assertEqual(recording.prepare_calls, [])
+
+    def test_prepare_is_not_called_when_the_policy_has_no_team_size_rule(self):
+        recording = RecordingRule()
+        result = allocate(make_students(8), [recording])
         self.assertEqual(result.status, INFEASIBLE)
         self.assertEqual(recording.prepare_calls, [])
 
