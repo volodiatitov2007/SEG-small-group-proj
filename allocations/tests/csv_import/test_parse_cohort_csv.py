@@ -37,9 +37,42 @@ class RequiredColumnsTestCase(SimpleTestCase):
         self.assertEqual(result.errors, [])
 
     def test_extra_columns_are_accepted(self):
-        result = parse_cohort_csv(csv_file('first_name,last_name,email,favourite_colour\nAda,Lovelace,ada@example.org,blue\n'))
+        result = parse_cohort_csv(csv_file('first_name,last_name,email,favourite_colour\n'
+                                           'Ada,Lovelace,ada@example.org,blue\n'))
         self.assertEqual(result.errors, [])
 
     def test_bom_at_start_of_file_is_ignored(self):
         result = parse_cohort_csv(csv_file('\ufefffirst_name,last_name,email\nAda,Lovelace,ada@example.org\n'))
         self.assertEqual(result.errors, [])
+
+
+class RequiredValuesTestCase(SimpleTestCase):
+    """Tests that every row has a first name, last name and email."""
+
+    def test_blank_email_is_an_error_with_its_row_number(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,\n'))
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].row_number, 2)
+        self.assertEqual(result.errors[0].column, 'email')
+
+    def test_value_of_only_spaces_counts_as_blank(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\n   ,Lovelace,ada@example.org\n'))
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].column, 'first_name')
+
+    def test_every_blank_value_is_reported(self):
+        result = parse_cohort_csv(csv_file(
+            'first_name,last_name,email\n'
+            'Ada,,ada@example.org\n'
+            ',Turing,\n'
+        ))
+        self.assertEqual([error.row_number for error in result.errors], [2, 3, 3])
+
+    def test_short_row_counts_as_missing_values(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda\n'))
+        self.assertEqual([error.column for error in result.errors], ['last_name', 'email'])
+
+    def test_rows_are_not_checked_when_a_column_is_missing(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name\n,\n'))
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].column, 'email')

@@ -45,4 +45,23 @@ def parse_cohort_csv(uploaded_file):
                 message=f"Required column '{column}' is missing. Columns found: {', '.join(columns)}.",
             ))
 
+    if result.errors:
+        return result
+
+    for row_number, row in enumerate(reader, start=2):
+        _check_required_values(row, row_number, result)
+
     return result
+
+
+def _check_required_values(row, row_number, result):
+    """Report any required column that is empty in this row."""
+    for column in REQUIRED_COLUMNS:
+        value = (row[column] or '').strip()
+        if not value:
+            result.errors.append(Problem(
+                row_number=row_number,
+                column=column,
+                value='',
+                message=f'Row {row_number}: {column} is empty. Every student needs a first name, last name, and email.',
+            ))
