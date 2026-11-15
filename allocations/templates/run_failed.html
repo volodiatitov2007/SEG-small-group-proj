@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>{{ run.project.name }}: allocation run</h1>
+  {% if run.status == 'infeasible' %}
+    <div class="alert alert-danger"><strong>Known impossible.</strong> {{ run.message|default:'No allocation meets the hard rules.' }}</div>
+  {% else %}
+    <div class="alert alert-danger"><strong>None found within the time limit.</strong> {{ run.message }}</div>
+  {% endif %}
+  <p>Cohort: {{ run.cohort.original_filename }} · Run time: {{ run.created_at }}</p>
+  <a href="{% url 'project_detail' run.project_id %}">Back to project</a>
+{% endblock %}
