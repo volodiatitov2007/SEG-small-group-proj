@@ -12,6 +12,11 @@ from django.core.validators import validate_email
 
 REQUIRED_COLUMNS = ['first_name', 'last_name', 'email']
 
+CODED_COLUMNS = {
+    'gender': {0, 1, 2, 3},
+    'ethnicity': {0, 1, 2, 3, 4, 5},
+}
+
 
 @dataclass
 class Problem:
@@ -55,6 +60,9 @@ def parse_cohort_csv(uploaded_file):
     for row_number, row in enumerate(reader, start=2):
         _check_required_values(row, row_number, result)
         _check_email(row, row_number, seen_emails, result)
+        for column, allowed in CODED_COLUMNS.items():
+            if column in columns:
+                _check_code(row, row_number, column, allowed, result)
 
     return result
 
@@ -99,3 +107,33 @@ def _check_email(row, row_number, seen_emails, result):
         ))
     else:
         seen_emails[key] = row_number
+
+
+def _check_code(row, row_number, column, allowed, result):
+    """Report a gender or ethnicity value that is not one of the allowed codes."""
+    value = (row[column] or '').strip()
+    if not value:
+        result.warnings.append(Problem(
+            row_number=row_number,
+            column=column,
+            value='',
+            message=f'Row {row_number}: {column} is blank, so it will be treated as 0 (not provided).',
+        ))
+        return
+
+    if parse_code(value) not in allowed:
+        codes = ', '.join(str(code) for code in sorted(allowed))
+        result.errors.append(Problem(
+            row_number=row_number,
+            column=column,
+            value=value,
+            message=f"Row {row_number}: {column} '{value}' is not valid. Expected one of: {codes}.",
+        ))
+
+
+def parse_code(value):
+    """Return the number before the colon in a value like '2: Man' or '5 : Other', or None."""
+    number = value.split(':')[0].strip()
+    if not number.isdigit():
+        return None
+    return int(number)

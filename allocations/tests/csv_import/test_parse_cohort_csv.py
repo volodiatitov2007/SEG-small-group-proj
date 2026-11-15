@@ -116,3 +116,45 @@ class EmailTestCase(SimpleTestCase):
         ))
         self.assertEqual(result.errors, [])
     
+class CodedColumnsTestCase(SimpleTestCase):
+    """Tests that gender and ethnicity use the allowed codes."""
+
+    HEADER = 'first_name,last_name,email,gender,ethnicity\n'
+
+    def parse_row(self, gender, ethnicity):
+        return parse_cohort_csv(csv_file(self.HEADER + f'Ada,Lovelace,ada@example.org,{gender},{ethnicity}\n'))
+
+    def test_code_with_label_is_valid(self):
+        result = self.parse_row('1: Woman', '4: White')
+        self.assertEqual(result.errors, [])
+
+    def test_space_before_the_colon_is_valid(self):
+        result = self.parse_row('2: Man', '5 : Other ethnic group (e.g. Arab)')
+        self.assertEqual(result.errors, [])
+
+    def test_zero_means_not_provided_and_is_valid(self):
+        result = self.parse_row('0', '0')
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.warnings, [])
+
+    def test_unknown_code_is_an_error(self):
+        result = self.parse_row('7: Robot', '1: Asian')
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].column, 'gender')
+        self.assertEqual(result.errors[0].value, '7: Robot')
+
+    def test_value_without_a_number_is_an_error(self):
+        result = self.parse_row('2: Man', 'Asian')
+        self.assertEqual(len(result.errors), 1)
+        self.assertEqual(result.errors[0].column, 'ethnicity')
+
+    def test_blank_code_is_a_warning_not_an_error(self):
+        result = self.parse_row('', '4: White')
+        self.assertEqual(result.errors, [])
+        self.assertEqual(len(result.warnings), 1)
+        self.assertEqual(result.warnings[0].column, 'gender')
+
+    def test_file_without_coded_columns_is_fine(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,ada@example.org\n'))
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.warnings, [])
