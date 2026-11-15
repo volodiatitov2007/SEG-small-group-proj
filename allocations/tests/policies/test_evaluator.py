@@ -3,7 +3,7 @@ import random
 from django.test import SimpleTestCase
 
 from allocations.policies import TeamSizeRule
-from allocations.policies.evaluator import WEIGHT, evaluate, is_valid, soft_cost
+from allocations.policies.evaluator import WEIGHT, evaluate, is_valid, soft_cost, team_order
 from allocations.tests.policies.helpers import make_teams
 
 
@@ -17,7 +17,7 @@ class EvaluateTestCase(SimpleTestCase):
     def test_reports_every_offending_team(self):
         rules = [TeamSizeRule(4, 5)]
         violations = evaluate(rules, make_teams(3, 5, 6))
-        self.assertEqual([v.team for v in violations], ["Team 1", "Team 3"])
+        self.assertEqual([v.team for v in violations], ['Team 1', 'Team 3'])
 
     def test_no_rules_means_no_violations(self):
         self.assertEqual(evaluate([], make_teams(1, 9)), [])
@@ -32,6 +32,21 @@ class EvaluateTestCase(SimpleTestCase):
         self.assertEqual(
             [(v.hard, v.priority) for v in violations],
             [(True, 2), (False, 1), (False, 3)],
+        )
+
+    def test_teams_are_ordered_by_number_not_by_text(self):
+        rules = [TeamSizeRule(4, 5)]
+        sizes = [3] * 12
+        violations = evaluate(rules, make_teams(*sizes))
+        self.assertEqual(
+            [v.team for v in violations],
+            [f'Team {number}' for number in range(1, 13)],
+        )
+
+    def test_team_order_handles_names_without_numbers(self):
+        self.assertEqual(
+            sorted(['Team 10', 'Alpaca', 'Team 2', None], key=team_order),
+            [None, 'Alpaca', 'Team 2', 'Team 10'],
         )
 
     def test_reported_violations_match_a_hand_check_on_random_allocations(self):
