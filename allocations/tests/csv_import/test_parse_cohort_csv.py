@@ -115,7 +115,7 @@ class EmailTestCase(SimpleTestCase):
             'Alan,Turing,alan@example.org\n'
         ))
         self.assertEqual(result.errors, [])
-    
+
 class CodedColumnsTestCase(SimpleTestCase):
     """Tests that gender and ethnicity use the allowed codes."""
 
