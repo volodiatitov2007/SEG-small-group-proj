@@ -9,6 +9,7 @@ urlpatterns = [
     path('log_in/', views.log_in, name='log_in'),
     path('log_out/', views.log_out, name='log_out'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('projects/', views.project_list, name='project_list'),
     path('projects/<int:project_id>/', views.project_detail, name='project_detail'),
     path('runs/<int:run_id>/', views.run_detail, name='run_detail'),
     path('runs/<int:run_id>/export.csv', views.export_run_csv, name='export_run_csv'),
