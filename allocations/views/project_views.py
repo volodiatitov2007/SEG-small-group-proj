@@ -2,8 +2,7 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-
+from django.shortcuts import get_object_or_404, redirect, render
 from allocations.forms import ProjectForm
 from allocations.models import Project
 
@@ -29,3 +28,18 @@ def project_create(request):
     else:
         form = ProjectForm()
     return render(request, 'project_form.html', {'form': form, 'title': 'Create project'})
+
+
+@login_required
+def project_update(request, project_id):
+    """Let the owner change a project's name and description."""
+    project = get_object_or_404(Project, pk=project_id, owner=request.user)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Project {project.name} has been updated.')
+            return redirect('project_detail', project_id=project.id)
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'project_form.html', {'form': form, 'title': 'Edit project'})

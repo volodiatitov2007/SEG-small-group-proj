@@ -97,3 +97,54 @@ class ProjectCreateViewTestCase(TestCase):
         other_user = create_superuser()
         self.client.post(self.url, {'name': 'SEG 2026', 'owner': other_user.id})
         self.assertEqual(Project.objects.get().owner, self.user)
+
+
+class ProjectUpdateViewTestCase(TestCase):
+    """Tests of editing a project."""
+
+    def setUp(self):
+        self.user = create_user()
+        self.project = Project.objects.create(name='SEG 2026', description='Old', owner=self.user)
+        self.url = reverse('project_update', args=[self.project.id])
+        self.client.force_login(self.user)
+
+    def test_project_update_url(self):
+        self.assertEqual(self.url, f'/projects/{self.project.id}/edit/')
+
+    def test_logged_out_user_is_redirected_to_log_in(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertRedirects(response, log_in_url_for(self.url))
+
+    def test_get_shows_the_form_filled_in(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'project_form.html')
+        self.assertContains(response, 'Edit project')
+        self.assertContains(response, 'value="SEG 2026"')
+
+    def test_valid_form_updates_the_project(self):
+        self.client.post(self.url, {'name': 'SEG 2027', 'description': 'New'})
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.name, 'SEG 2027')
+        self.assertEqual(self.project.description, 'New')
+        self.assertEqual(Project.objects.count(), 1)
+
+    def test_valid_form_redirects_to_the_project_with_a_message(self):
+        response = self.client.post(self.url, {'name': 'SEG 2027'}, follow=True)
+        self.assertRedirects(response, reverse('project_detail', args=[self.project.id]))
+        self.assertIn('Project SEG 2027 has been updated.', messages_in(response))
+
+    def test_blank_name_is_rejected_and_the_project_is_unchanged(self):
+        response = self.client.post(self.url, {'name': ''})
+        self.assertContains(response, 'This field is required.')
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.name, 'SEG 2026')
+
+    def test_other_users_project_gives_404(self):
+        other_project = Project.objects.create(name='Theirs', owner=create_superuser())
+        response = self.client.get(reverse('project_update', args=[other_project.id]))
+        self.assertEqual(response.status_code, 404)
+
+    def test_missing_project_gives_404(self):
+        response = self.client.get(reverse('project_update', args=[999]))
+        self.assertEqual(response.status_code, 404)
