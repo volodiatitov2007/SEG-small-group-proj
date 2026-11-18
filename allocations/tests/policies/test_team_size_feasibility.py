@@ -34,17 +34,17 @@ class TeamSizeFeasibilityTestCase(SimpleTestCase):
     def test_reason_explains_impossible_split(self):
         self.assertEqual(
             team_size_problem(7, 4, 5),
-            "7 students cannot be split into teams of 4-5.",
+            '7 students cannot be split into teams of 4-5.',
         )
 
     def test_no_reason_when_feasible(self):
         self.assertIsNone(team_size_problem(300, 4, 5))
 
     def test_zero_students_is_reported(self):
-        self.assertEqual(team_size_problem(0, 4, 5), "There are no students to allocate.")
+        self.assertEqual(team_size_problem(0, 4, 5), 'There are no students to allocate.')
 
     def test_minimum_above_maximum_is_reported(self):
-        self.assertEqual(team_size_problem(10, 6, 5), "Team sizes 6-5 are not a valid range.")
+        self.assertEqual(team_size_problem(10, 6, 5), 'Team sizes 6-5 are not a valid range.')
 
     def test_minimum_below_one_is_reported(self):
         self.assertIsNotNone(team_size_problem(10, 0, 5))
