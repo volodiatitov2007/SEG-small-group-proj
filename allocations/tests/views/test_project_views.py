@@ -6,7 +6,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from allocations.models import Project
+from allocations.models import AllocationRun, Cohort, Project, Student, Team, TeamMembership
 from allocations.tests.helpers import create_superuser, create_user, log_in_url_for, messages_in
 
 
@@ -147,4 +147,59 @@ class ProjectUpdateViewTestCase(TestCase):
 
     def test_missing_project_gives_404(self):
         response = self.client.get(reverse('project_update', args=[999]))
+        self.assertEqual(response.status_code, 404)
+
+
+class ProjectDeleteViewTestCase(TestCase):
+    """Tests of deleting a project."""
+
+    def setUp(self):
+        self.user = create_user()
+        self.project = Project.objects.create(name='SEG 2026', owner=self.user)
+        self.url = reverse('project_delete', args=[self.project.id])
+        self.client.force_login(self.user)
+
+    def test_project_delete_url(self):
+        self.assertEqual(self.url, f'/projects/{self.project.id}/delete/')
+
+    def test_logged_out_user_is_redirected_to_log_in(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertRedirects(response, log_in_url_for(self.url))
+
+    def test_get_shows_the_confirm_page_and_does_not_delete(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'project_confirm_delete.html')
+        self.assertContains(response, 'SEG 2026')
+        self.assertTrue(Project.objects.filter(id=self.project.id).exists())
+
+    def test_post_deletes_the_project(self):
+        self.client.post(self.url)
+        self.assertFalse(Project.objects.filter(id=self.project.id).exists())
+
+    def test_post_redirects_to_the_list_with_a_message(self):
+        response = self.client.post(self.url, follow=True)
+        self.assertRedirects(response, reverse('project_list'))
+        self.assertIn('Project SEG 2026 has been deleted.', messages_in(response))
+
+    def test_post_also_deletes_cohorts_students_and_runs(self):
+        cohort = Cohort.objects.create(project=self.project, original_filename='cohort.csv')
+        student = Student.objects.create(cohort=cohort, first_name='Amira', last_name='Khan', email='amira@example.com')
+        run = AllocationRun.objects.create(project=self.project, cohort=cohort, status=AllocationRun.Status.OK)
+        team = Team.objects.create(run=run, name='Team 1')
+        TeamMembership.objects.create(team=team, student=student)
+        self.client.post(self.url)
+        self.assertEqual(Cohort.objects.count(), 0)
+        self.assertEqual(Student.objects.count(), 0)
+        self.assertEqual(AllocationRun.objects.count(), 0)
+        self.assertEqual(TeamMembership.objects.count(), 0)
+
+    def test_other_users_project_gives_404_and_is_not_deleted(self):
+        other_project = Project.objects.create(name='Theirs', owner=create_superuser())
+        response = self.client.post(reverse('project_delete', args=[other_project.id]))
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue(Project.objects.filter(id=other_project.id).exists())
+
+    def test_missing_project_gives_404(self):
+        response = self.client.get(reverse('project_delete', args=[999]))
         self.assertEqual(response.status_code, 404)

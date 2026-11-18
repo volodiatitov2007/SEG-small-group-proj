@@ -43,3 +43,14 @@ def project_update(request, project_id):
     else:
         form = ProjectForm(instance=project)
     return render(request, 'project_form.html', {'form': form, 'title': 'Edit project'})
+
+
+@login_required
+def project_delete(request, project_id):
+    """Ask the owner for confirmation, then delete the project."""
+    project = get_object_or_404(Project, pk=project_id, owner=request.user)
+    if request.method == 'POST':
+        project.delete()
+        messages.success(request, f'Project {project.name} has been deleted.')
+        return redirect('project_list')
+    return render(request, 'project_confirm_delete.html', {'project': project})
