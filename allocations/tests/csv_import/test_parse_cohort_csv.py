@@ -263,3 +263,7 @@ class CleanRowsTestCase(SimpleTestCase):
     def test_no_rows_when_a_required_column_is_missing(self):
         result = parse_cohort_csv(csv_file('first_name,last_name\nAda,Lovelace\n'))
         self.assertEqual(result.rows, [])
+
+    def test_columns_are_recorded_in_order(self):
+        result = parse_cohort_csv(csv_file(self.HEADER + 'Ada,Lovelace,ada@example.org,1,4,57,\n'))
+        self.assertEqual(result.columns, ['first_name', 'last_name', 'email', 'gender', 'ethnicity', 'c-score', 'schedule'])

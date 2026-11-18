@@ -38,6 +38,7 @@ class ImportResult:
     bad_rows: list = field(default_factory=list)  # a Problem for each reason a row was skipped
     file_errors: list = field(default_factory=list)  # Problems with the whole file, so nothing is imported
     warnings: list = field(default_factory=list)  # Problems worth showing, but the row is still imported
+    columns: list = field(default_factory=list)  # the file's column names, in order
 
 
 def parse_cohort_csv(uploaded_file):
@@ -46,6 +47,7 @@ def parse_cohort_csv(uploaded_file):
     text = uploaded_file.read().decode('utf-8-sig')
     reader = csv.DictReader(io.StringIO(text))
     columns = reader.fieldnames or []
+    result.columns = columns
 
     for column in REQUIRED_COLUMNS:
         if column not in columns:
