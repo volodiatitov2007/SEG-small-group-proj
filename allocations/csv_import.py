@@ -17,6 +17,8 @@ CODED_COLUMNS = {
     'ethnicity': {0, 1, 2, 3, 4, 5},
 }
 
+C_SCORE_COLUMN = 'c-score'
+
 
 @dataclass
 class Problem:
@@ -63,6 +65,8 @@ def parse_cohort_csv(uploaded_file):
         for column, allowed in CODED_COLUMNS.items():
             if column in columns:
                 _check_code(row, row_number, column, allowed, result)
+        if C_SCORE_COLUMN in columns:
+            _check_c_score(row, row_number, result)
 
     return result
 
@@ -137,3 +141,24 @@ def parse_code(value):
     if not number.isdigit():
         return None
     return int(number)
+
+
+def _check_c_score(row, row_number, result):
+    """Report a c-score that is not a whole number from 0 to 100."""
+    value = (row[C_SCORE_COLUMN] or '').strip()
+    if not value:
+        result.warnings.append(Problem(
+            row_number=row_number,
+            column=C_SCORE_COLUMN,
+            value='',
+            message=f'Row {row_number}: c-score is blank, so it will be treated as not provided.',
+        ))
+        return
+
+    if not value.isdigit() or int(value) > 100:
+        result.errors.append(Problem(
+            row_number=row_number,
+            column=C_SCORE_COLUMN,
+            value=value,
+            message=f"Row {row_number}: c-score '{value}' is not valid. It must be a whole number from 0 to 100.",
+        ))

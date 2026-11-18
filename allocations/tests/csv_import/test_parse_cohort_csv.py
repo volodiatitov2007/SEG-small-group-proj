@@ -158,3 +158,36 @@ class CodedColumnsTestCase(SimpleTestCase):
         result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,ada@example.org\n'))
         self.assertEqual(result.errors, [])
         self.assertEqual(result.warnings, [])
+
+
+class CScoreTestCase(SimpleTestCase):
+    """Tests that c-scores are whole numbers from 0 to 100."""
+
+    def parse_c_score(self, c_score):
+        return parse_cohort_csv(csv_file(
+            'first_name,last_name,email,c-score\n'
+            f'Ada,Lovelace,ada@example.org,{c_score}\n'
+        ))
+
+    def test_whole_numbers_from_0_to_100_are_valid(self):
+        for c_score in ['0', '57', '100', ' 57 ']:
+            with self.subTest(c_score=c_score):
+                self.assertEqual(self.parse_c_score(c_score).errors, [])
+
+    def test_invalid_values_are_errors(self):
+        for c_score in ['101', '-5', '55.5', 'abc']:
+            with self.subTest(c_score=c_score):
+                result = self.parse_c_score(c_score)
+                self.assertEqual(len(result.errors), 1)
+                self.assertEqual(result.errors[0].value, c_score)
+
+    def test_blank_c_score_is_a_warning_not_an_error(self):
+        result = self.parse_c_score('')
+        self.assertEqual(result.errors, [])
+        self.assertEqual(len(result.warnings), 1)
+        self.assertEqual(result.warnings[0].column, 'c-score')
+
+    def test_file_without_c_score_column_is_fine(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,ada@example.org\n'))
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.warnings, [])
