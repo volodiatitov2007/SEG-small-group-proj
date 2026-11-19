@@ -12,6 +12,7 @@ urlpatterns = [
     path('projects/<int:project_id>/', views.project_detail, name='project_detail'),
     path('runs/<int:run_id>/', views.run_detail, name='run_detail'),
     path('runs/<int:run_id>/export.csv', views.export_run_csv, name='export_run_csv'),
+    path('projects/<int:project_id>/run/', views.start_run, name='run_allocation'),
     path('profile/', views.profile, name='profile'),
     path('password/', views.password, name='password'),
     path('users/', views.user_list, name='user_list'),
