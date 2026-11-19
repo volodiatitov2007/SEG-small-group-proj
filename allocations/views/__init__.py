@@ -16,3 +16,4 @@ from .user_management_views import (
     user_update,
 )
 from .results_views import export_run_csv, project_detail, run_detail
+from .run_views import start_run
