@@ -33,6 +33,8 @@ def allocate(students: list[StudentView], rules: list[Rule], time_limit: float =
              seed: int = 0, max_steps: int | None = None) -> AllocationResult:
     """Return the best allocation found within the time limit, or why there is none.
 
+    Every team count the size range allows is searched, fewest teams first, each with an equal share of the
+    remaining time. The best-scoring count wins and a tie goes to the fewer teams.
     Same seed and max_steps give the same teams; without max_steps the deadline may cut the search at a different point.
     """
     started = time.monotonic()
@@ -57,8 +59,23 @@ def allocate(students: list[StudentView], rules: list[Rule], time_limit: float =
 
     for rule in rules:
         rule.prepare(list(students))
-    teams = _greedy_start(students, _team_count(len(students), min_size, max_size))
-    _local_search(teams, rules, min_size, max_size, deadline, random.Random(seed), max_steps)
+    counts = _team_counts(len(students), min_size, max_size)
+    # shortcut: a wide size range (min_size=1 on 300 students is ~240 counts) splits the time limit thinly
+    # across the counts; upgrade by capping the counts tried or searching the most promising ones first
+    best_teams, best_score = None, None
+    for index, count in enumerate(counts):
+        now = time.monotonic()
+        if best_teams is not None and now >= deadline:
+            break
+        count_deadline = now + max(0.0, deadline - now) / (len(counts) - index)
+        teams = _greedy_start(students, count)
+        _local_search(teams, rules, min_size, max_size, count_deadline, random.Random(seed), max_steps)
+        score = _score(rules, teams)
+        if best_score is None or score < best_score:  # a tie keeps the smaller count found first
+            best_teams, best_score = teams, score
+        if best_score == (0, 0):
+            break
+    teams = best_teams
 
     violations = evaluate(rules, teams)
     if not is_valid(rules, teams):
@@ -70,15 +87,18 @@ def allocate(students: list[StudentView], rules: list[Rule], time_limit: float =
     return finish(OK, message, teams, violations)
 
 
-def _team_count(student_count: int, min_size: int, max_size: int) -> int:
-    """Return the fewest teams that fit the size range, or the count that breaks it least when none fits."""
+def _team_counts(student_count: int, min_size: int, max_size: int) -> range | list[int]:
+    """Return every team count that fits the size range, fewest first.
+
+    When none fits, return the one count that breaks the size range least.
+    """
     if team_size_feasible(student_count, min_size, max_size):
-        return ceil(student_count / max_size)
+        return range(ceil(student_count / max_size), student_count // min_size + 1)
     def size_gap(count):
         small, extra = divmod(student_count, count)
         sizes = [small + 1] * extra + [small] * (count - extra)
         return sum(max(0, min_size - size) + max(0, size - max_size) for size in sizes)
-    return min(range(1, student_count + 1), key=size_gap)
+    return [min(range(1, student_count + 1), key=size_gap)]
 
 
 def _greedy_start(students: list[StudentView], team_count: int) -> Teams:
