@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from allocations.allocator import INFEASIBLE, TIMEOUT, _greedy_start, _team_count, allocate
+from allocations.allocator import INFEASIBLE, TIMEOUT, _greedy_start, _team_counts, allocate
 from allocations.policies import TeamSizeRule
 from allocations.policies.evaluator import evaluate, is_valid
 from allocations.tests.allocator.helpers import (
@@ -65,13 +65,13 @@ class TeamCountTestCase(TestCase):
     def test_feasible_ranges_pick_the_fewest_teams_that_fit_the_maximum(self):
         for student_count, team_count in ((8, 2), (9, 2), (300, 60)):
             with self.subTest(student_count=student_count):
-                self.assertEqual(_team_count(student_count, 4, 5), team_count)
+                self.assertEqual(_team_counts(student_count, 4, 5)[0], team_count)
 
     def test_impossible_ranges_pick_the_count_that_breaks_the_range_least(self):
         # 11 = 6+5 and 11 = 4+4+3 tie on the gap, so the fewest teams wins.
         for student_count, team_count in ((7, 2), (11, 2), (3, 1), (1, 1)):
             with self.subTest(student_count=student_count):
-                self.assertEqual(_team_count(student_count, 4, 5), team_count)
+                self.assertEqual(_team_counts(student_count, 4, 5)[0], team_count)
 
 
 class TwoHardSizeRulesTestCase(TestCase):
@@ -105,8 +105,9 @@ class MaxStepsCountingTestCase(TestCase):
         result = allocate(make_students(12), rules, max_steps=10, time_limit=30)
         self.assertEqual(result.status, TIMEOUT)
         # 3 initial team scorings (evaluate + soft_cost) + 4 per step (two teams,
-        # each scored by evaluate and soft_cost) + the final evaluate and is_valid.
-        self.assertEqual(counting.calls, 3 * 2 + 4 * 10 + 3 + 3)
+        # each scored by evaluate and soft_cost) + scoring the finished count (3 x 2)
+        # + the final evaluate and is_valid.
+        self.assertEqual(counting.calls, 3 * 2 + 4 * 10 + 3 * 2 + 3 + 3)
 
     def test_patience_stop_bounds_rule_checks_when_no_improvement_is_possible(self):
         counting = CountingRule()
@@ -115,24 +116,25 @@ class MaxStepsCountingTestCase(TestCase):
         self.assertEqual(result.status, TIMEOUT)
         # patience = max(2000, 50 * 12) idle steps with no strict improvement among
         # them; same per-step and final-scoring costs as the max_steps test above.
-        self.assertEqual(counting.calls, 3 * 2 + 4 * 2000 + 3 + 3)
+        self.assertEqual(counting.calls, 3 * 2 + 4 * 2000 + 3 * 2 + 3 + 3)
 
     def test_search_is_skipped_entirely_for_a_single_team(self):
         counting = CountingRule()
         rules = [TeamSizeRule(min_size=5, max_size=5), AlwaysBrokenHardRule(), counting]
         result = allocate(make_students(5), rules, max_steps=50, time_limit=30)
         self.assertEqual(result.status, TIMEOUT)
-        # Only the final evaluate and is_valid run; the search loop never scores a team.
-        self.assertEqual(counting.calls, 2)
+        # Only scoring the single team count and the final evaluate and is_valid run;
+        # the search loop never scores a team.
+        self.assertEqual(counting.calls, 2 + 2)
 
     def test_search_stops_immediately_when_every_team_already_scores_zero(self):
         counting = CountingRule()
         rules = [TeamSizeRule(min_size=4, max_size=5), counting]
         result = allocate(make_students(12), rules, max_steps=100)
         self.assertEqual(result.status, 'ok')
-        # Initial scoring (3 teams x 2) plus the final evaluate and is_valid (3 + 3);
-        # not a single search step runs.
-        self.assertEqual(counting.calls, 3 * 2 + 3 + 3)
+        # Initial scoring (3 teams x 2), scoring the finished count (3 x 2) plus the final
+        # evaluate and is_valid (3 + 3); not a single search step runs.
+        self.assertEqual(counting.calls, 3 * 2 + 3 * 2 + 3 + 3)
 
 
 class MoveStepTestCase(TestCase):
