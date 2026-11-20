@@ -68,7 +68,7 @@ class AllocationRun(models.Model):
         TIMEOUT = 'timeout', 'None found in time'
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='runs')
-    cohort = models.ForeignKey(Cohort, on_delete=models.PROTECT, related_name='runs')
+    cohort = models.ForeignKey(Cohort, on_delete=models.RESTRICT, related_name='runs')
     policy_snapshot = models.JSONField(default=dict)
     status = models.CharField(max_length=12, choices=Status.choices)
     message = models.TextField(blank=True)
@@ -93,7 +93,7 @@ class Team(models.Model):
 
 class TeamMembership(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='members')
-    student = models.ForeignKey(Student, on_delete=models.PROTECT, related_name='team_memberships')
+    student = models.ForeignKey(Student, on_delete=models.RESTRICT, related_name='team_memberships')
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=['team', 'student'], name='unique_member')]
