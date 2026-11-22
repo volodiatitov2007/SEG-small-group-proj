@@ -33,6 +33,22 @@ class Project(models.Model):
         return self.name
 
 
+class Policy(models.Model):
+    """A named set of allocation rules, saved as the JSON form of each rule."""
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='policies')
+    name = models.CharField(max_length=100)
+    rules = models.JSONField(default=list)  # one Rule.to_dict() per rule
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['project', 'name'], name='unique_policy_name_per_project')]
+        ordering = ['name', 'pk']
+
+    def __str__(self):
+        return self.name
+
+
 class Cohort(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='cohorts')
     original_filename = models.CharField(max_length=255)

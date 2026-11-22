@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Allocation policies</h1>
+  <p>Project <a href="{% url 'project_detail' project.id %}">{{ project.name }}</a></p>
+  <p><a class="btn btn-primary" href="{% url 'policy_create' project.id %}">New policy</a></p>
+  {% if policies %}
+    <div class="table-responsive"><table class="table table-sm table-striped">
+      <thead><tr><th>Name</th><th>Rules</th><th></th></tr></thead>
+      <tbody>{% for policy in policies %}<tr>
+        <td>{{ policy.name }}</td>
+        <td>{% for line in policy.rule_lines %}<div>{{ line }}</div>{% empty %}No rules{% endfor %}</td>
+        <td><a href="{% url 'policy_update' policy.id %}">Edit</a></td>
+      </tr>{% endfor %}</tbody>
+    </table></div>
+  {% else %}
+    <p>No policies yet. Create one to choose the team size and the rules for an allocation.</p>
+  {% endif %}
+{% endblock %}

@@ -15,5 +15,6 @@ from .user_management_views import (
     user_list,
     user_update,
 )
+from .policy_views import policy_create, policy_list, policy_update
 from .results_views import export_run_csv, project_detail, run_detail
 from .project_views import project_create, project_delete, project_list, project_update
