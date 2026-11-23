@@ -34,13 +34,14 @@ class Problem:
 class ImportResult:
     """What came out of reading a cohort file."""
 
-    rows: list = field(default_factory=list)
-    errors: list = field(default_factory=list)
-    warnings: list = field(default_factory=list)
+    rows: list = field(default_factory=list)  # one clean dict per good row, ready to save as a Student
+    bad_rows: list = field(default_factory=list)  # a Problem for each reason a row was skipped
+    file_errors: list = field(default_factory=list)  # Problems with the whole file, so nothing is imported
+    warnings: list = field(default_factory=list)  # Problems worth showing, but the row is still imported
 
 
 def parse_cohort_csv(uploaded_file):
-    """Read a cohort CSV file and return its rows, errors, and warnings."""
+    """Read a cohort CSV file and return its good rows, bad rows, file errors and warnings."""
     result = ImportResult()
     text = uploaded_file.read().decode('utf-8-sig')
     reader = csv.DictReader(io.StringIO(text))
@@ -48,18 +49,19 @@ def parse_cohort_csv(uploaded_file):
 
     for column in REQUIRED_COLUMNS:
         if column not in columns:
-            result.errors.append(Problem(
+            result.file_errors.append(Problem(
                 row_number=None,
                 column=column,
                 value='',
                 message=f"Required column '{column}' is missing. Columns found: {', '.join(columns)}.",
             ))
 
-    if result.errors:
+    if result.file_errors:
         return result
 
     seen_emails = {}
     for row_number, row in enumerate(reader, start=2):
+        problems_before = len(result.bad_rows)
         _check_required_values(row, row_number, result)
         _check_email(row, row_number, seen_emails, result)
         for column, allowed in CODED_COLUMNS.items():
@@ -67,6 +69,11 @@ def parse_cohort_csv(uploaded_file):
                 _check_code(row, row_number, column, allowed, result)
         if C_SCORE_COLUMN in columns:
             _check_c_score(row, row_number, result)
+
+        if len(result.bad_rows) == problems_before:
+            student = _clean_row(row, columns)
+            result.rows.append(student)
+            seen_emails[student['email']] = row_number
 
     return result
 
@@ -76,7 +83,7 @@ def _check_required_values(row, row_number, result):
     for column in REQUIRED_COLUMNS:
         value = (row[column] or '').strip()
         if not value:
-            result.errors.append(Problem(
+            result.bad_rows.append(Problem(
                 row_number=row_number,
                 column=column,
                 value='',
@@ -93,7 +100,7 @@ def _check_email(row, row_number, seen_emails, result):
     try:
         validate_email(email)
     except ValidationError:
-        result.errors.append(Problem(
+        result.bad_rows.append(Problem(
             row_number=row_number,
             column='email',
             value=email,
@@ -103,14 +110,12 @@ def _check_email(row, row_number, seen_emails, result):
 
     key = email.lower()
     if key in seen_emails:
-        result.errors.append(Problem(
+        result.bad_rows.append(Problem(
             row_number=row_number,
             column='email',
             value=email,
             message=f'Row {row_number}: {email} is already used on row {seen_emails[key]}.',
         ))
-    else:
-        seen_emails[key] = row_number
 
 
 def _check_code(row, row_number, column, allowed, result):
@@ -127,7 +132,7 @@ def _check_code(row, row_number, column, allowed, result):
 
     if parse_code(value) not in allowed:
         codes = ', '.join(str(code) for code in sorted(allowed))
-        result.errors.append(Problem(
+        result.bad_rows.append(Problem(
             row_number=row_number,
             column=column,
             value=value,
@@ -156,9 +161,35 @@ def _check_c_score(row, row_number, result):
         return
 
     if not value.isdigit() or int(value) > 100:
-        result.errors.append(Problem(
+        result.bad_rows.append(Problem(
             row_number=row_number,
             column=C_SCORE_COLUMN,
             value=value,
             message=f"Row {row_number}: c-score '{value}' is not valid. It must be a whole number from 0 to 100.",
         ))
+
+
+def _clean_row(row, columns):
+    """Turn a row that passed every check into a dict ready to save as a Student."""
+    student = {
+        'first_name': row['first_name'].strip(),
+        'last_name': row['last_name'].strip(),
+        'email': row['email'].strip().lower(),
+        'gender': None,
+        'ethnicity': None,
+        'c_score': None,
+        'extra': {},
+    }
+    for column in CODED_COLUMNS:
+        if column in columns:
+            value = (row[column] or '').strip()
+            student[column] = parse_code(value) if value else 0
+    if C_SCORE_COLUMN in columns:
+        value = (row[C_SCORE_COLUMN] or '').strip()
+        student['c_score'] = int(value) if value else None
+
+    known_columns = REQUIRED_COLUMNS + list(CODED_COLUMNS) + [C_SCORE_COLUMN]
+    for column in columns:
+        if column not in known_columns:
+            student['extra'][column] = (row[column] or '').strip()
+    return student
