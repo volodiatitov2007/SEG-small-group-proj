@@ -77,7 +77,8 @@ class RandomCohortInvariantsTestCase(SimpleTestCase):
                 continue
             with self.subTest(seed=seed, n=n):
                 result = run_allocation(cohort, policy, seed=seed)
-                reported = Counter((v.team, int(re.search(r'gender-(\d)', v.message).group(1))) for v in result.violations if v.rule == 'fake_gender')                expected = Counter(lone_members(result.teams))
+                reported = Counter((v.team, int(re.search(r'gender-(\d)', v.message).group(1))) for v in result.violations if v.rule == 'fake_gender')                
+                expected = Counter(lone_members(result.teams))
                 self.assertEqual(reported, expected)
 
     def test_the_same_seed_gives_the_same_teams(self):
