@@ -6,7 +6,11 @@
   </div>
   <section class="card card-body mb-3">
     <h2 class="h5">Summary</h2>
-    <p class="mb-1">{{ allocated_count }} allocated students in {{ team_count }} teams.</p>
+    <p class="mb-1 {% if allocated_count != student_count %}text-danger fw-bold{% endif %}">
+      {{ allocated_count }} of {{ student_count }} students allocated across {{ team_count }} teams.
+      {% if allocated_count < student_count %}<span>(Some students were left out.)</span>
+      {% elif allocated_count > student_count %}<span>(The allocation contains more memberships than students.)</span>{% endif %}
+    </p>
     <p class="mb-1">Policy used:</p>
     {% if policy_lines %}<ul>{% for line in policy_lines %}<li>{{ line }}</li>{% endfor %}</ul>
     {% else %}<p class="text-muted">No policy details recorded.</p>{% endif %}

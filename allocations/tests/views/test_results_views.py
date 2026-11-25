@@ -104,6 +104,7 @@ class ResultsViewsTestCase(TestCase):
         self.assertEqual(response.context['team_count'], 3)
         self.assertEqual(response.context['student_count'], 3)
         self.assertEqual(response.context['allocated_count'], 3)
+        self.assertContains(response, '3 of 3 students allocated')
         self.assertEqual(response.context['unmet_rules'], self.run.violations)
         self.assertContains(response, self.violation_message)
         self.assertContains(response, 'Team size: 4')
@@ -112,6 +113,14 @@ class ResultsViewsTestCase(TestCase):
         self.assertFalse(teams['Team 1'].has_violation)
         self.assertTrue(teams['Team 2'].has_violation)
         self.assertFalse(teams['Team 10'].has_violation)
+
+    def test_run_detail_warns_when_students_are_not_all_allocated(self):
+        TeamMembership.objects.filter(team=self.team10, student=self.student_c).delete()
+        self.client.force_login(self.owner)
+        response = self.client.get(reverse('run_detail', args=[self.run.pk]))
+        self.assertContains(response, '2 of 3 students allocated')
+        self.assertContains(response, 'Some students were left out.')
+        self.assertContains(response, 'text-danger')
 
     def test_failed_run_shows_failure_page(self):
         self.run.status = AllocationRun.Status.INFEASIBLE
@@ -124,6 +133,17 @@ class ResultsViewsTestCase(TestCase):
         self.assertEqual(response.context['run'].message, self.run.message)
         self.assertContains(response, self.run.message)
         self.assertContains(response, '15.0 seconds')
+
+    def test_bad_policy_run_has_its_own_failure_message(self):
+        self.run.status = 'bad_policy'
+        self.run.message = 'The policy has an unknown rule.'
+        self.run.save()
+        self.client.force_login(self.owner)
+        response = self.client.get(reverse('run_detail', args=[self.run.pk]))
+        self.assertContains(response, 'Policy cannot be read.')
+        self.assertContains(response, 'The policy has an unknown rule.')
+        self.assertNotContains(response, 'Known infeasible.')
+        self.assertNotContains(response, 'This does not prove that none exists.')
 
     def test_timeout_run_explains_that_search_failure_is_not_proof_of_impossibility(self):
         self.run.status = AllocationRun.Status.TIMEOUT
@@ -208,6 +228,7 @@ class ResultsViewsTestCase(TestCase):
                 email=row['email'],
                 gender=parse_code(row['gender']) if row['gender'].strip() else None,
                 ethnicity=parse_code(row['ethnicity']) if row['ethnicity'].strip() else None,
+                # Exercise the missing-score display path; blank c-scores import as None.
                 c_score=None if number == 0 or not row['c-score'].strip() else int(row['c-score']),
                 extra={key: row[key] for key in ('schedule', 'ambition') if key in row},
             )
@@ -217,6 +238,14 @@ class ResultsViewsTestCase(TestCase):
         rule = TeamSizeRule(min_size=4, max_size=5, hard=True)
         result = allocate([student_view(student) for student in students], [rule], max_steps=0)
         self.assertEqual(result.status, AllocationRun.Status.OK)
+        def natural_key(value):
+            return tuple(
+                (0, int(part)) if part.isdigit() else (1, part.casefold())
+                for part in re.split(r'(\d+)', value)
+            )
+
+        expected_team_names = sorted(result.teams, key=natural_key)
+        team_count = len(result.teams)
 
         run = AllocationRun.objects.create(
             project=self.project,
@@ -235,27 +264,24 @@ class ResultsViewsTestCase(TestCase):
             ])
 
         self.client.force_login(self.owner)
-        page_two = self.client.get(reverse('run_detail', args=[run.pk]), {'page': 2})
-        self.assertEqual(page_two.status_code, 200)
-        self.assertEqual(page_two.context['team_count'], 60)
-        self.assertEqual(page_two.context['team_page'].number, 2)
-        self.assertEqual(len(page_two.context['teams']), 10)
-        self.assertContains(page_two, 'Team 51')
-        self.assertContains(page_two, 'Team 60')
-        self.assertContains(page_two, 'Page 2 of 2')
-        self.assertContains(page_two, '<td>-</td>', html=True)
+        page_size = 50
+        page_count = (team_count + page_size - 1) // page_size
+        page_number = min(2, page_count)
+        team_page = self.client.get(reverse('run_detail', args=[run.pk]), {'page': page_number})
+        self.assertEqual(team_page.status_code, 200)
+        self.assertEqual(team_page.context['team_count'], team_count)
+        self.assertEqual(team_page.context['team_page'].number, page_number)
+        expected_page_names = expected_team_names[(page_number - 1) * page_size:page_number * page_size]
+        self.assertEqual([team.name for team in team_page.context['teams']], expected_page_names)
+        self.assertContains(team_page, f'Page {page_number} of {page_count}')
+        self.assertContains(team_page, f'{len(students)} of {len(students)} students allocated')
+        self.assertContains(team_page, '<td>-</td>', html=True)
 
         export = self.client.get(reverse('export_run_csv', args=[run.pk]))
         rows = list(csv.reader(StringIO(export.content.decode('utf-8'))))
         self.assertEqual(rows[0], ['first_name', 'last_name', 'email', 'team'])
         self.assertEqual(len(rows) - 1, len(students))
         self.assertTrue(all(len(row) == 4 for row in rows))
-        def natural_key(value):
-            return tuple(
-                (0, int(part)) if part.isdigit() else (1, part.casefold())
-                for part in re.split(r'(\d+)', value)
-            )
-
         self.assertEqual(rows[1:], sorted(
             rows[1:],
             key=lambda row: (natural_key(row[3]), row[1].casefold(), row[0].casefold(), row[2]),
