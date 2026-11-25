@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -40,6 +42,18 @@ class StartRunViewTestCase(TestCase):
         self.client.login(username=self.owner.username, password=PASSWORD)
         self.client.post(self.url)
         self.assertEqual(AllocationRun.objects.get().cohort, latest)
+
+    def test_unreadable_policy_shows_its_own_failure_not_infeasible_or_timeout(self):
+        self.add_cohort()
+        self.client.login(username=self.owner.username, password=PASSWORD)
+        with patch('allocations.views.run_views.DEFAULT_RULES', [{'key': 'no_such_rule'}]):
+            response = self.client.post(self.url, follow=True)
+        self.assertEqual(AllocationRun.objects.get().status, AllocationRun.Status.BAD_POLICY)
+        self.assertTemplateUsed(response, 'run_failed.html')
+        self.assertContains(response, 'Policy cannot be read.')
+        self.assertContains(response, 'no_such_rule')
+        self.assertNotContains(response, 'Known impossible.')
+        self.assertNotContains(response, 'time limit')
 
     def test_get_is_not_allowed_and_creates_no_run(self):
         self.add_cohort()

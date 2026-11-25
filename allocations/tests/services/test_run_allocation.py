@@ -66,22 +66,22 @@ class RunAllocationTestCase(TestCase):
         self.assertEqual(run.message, 'There are no students to allocate.')
         self.assertEqual(run.teams.count(), 0)
 
-    def test_unknown_rule_key_is_saved_as_an_infeasible_run_with_the_raw_snapshot(self):
+    def test_unknown_rule_key_is_saved_as_a_bad_policy_run_with_the_raw_snapshot(self):
         self.add_students(10)
         rules = [{'key': 'no_such_rule', 'hard': True, 'priority': 1}]
         run = run_allocation(self.cohort, rules)
-        self.assertEqual(run.status, AllocationRun.Status.INFEASIBLE)
-        self.assertIn('policy is not valid', run.message)
+        self.assertEqual(run.status, AllocationRun.Status.BAD_POLICY)
+        self.assertIn('rule that cannot be read', run.message)
         self.assertIn('no_such_rule', run.message)
         self.assertEqual(run.policy_snapshot, {'rules': rules})
         self.assertEqual(run.teams.count(), 0)
 
-    def test_rule_with_an_extra_parameter_is_saved_as_an_infeasible_run_with_a_message(self):
+    def test_rule_with_an_extra_parameter_is_saved_as_a_bad_policy_run_with_a_message(self):
         self.add_students(10)
         rules = [{'key': 'team_size', 'hard': True, 'priority': 1, 'min_size': 4, 'max_size': 5, 'bogus': 1}]
         run = run_allocation(self.cohort, rules)
-        self.assertEqual(run.status, AllocationRun.Status.INFEASIBLE)
-        self.assertIn('policy is not valid', run.message)
+        self.assertEqual(run.status, AllocationRun.Status.BAD_POLICY)
+        self.assertIn('rule that cannot be read', run.message)
         self.assertIn('bogus', run.message)
         self.assertEqual(run.policy_snapshot, {'rules': rules})
         self.assertEqual(run.teams.count(), 0)

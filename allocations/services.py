@@ -3,7 +3,7 @@ from dataclasses import asdict
 
 from django.db import transaction
 
-from allocations.allocator import INFEASIBLE, allocate
+from allocations.allocator import allocate
 from allocations.models import AllocationRun, Team, TeamMembership
 from allocations.policies import rule_from_dict, student_view
 
@@ -12,7 +12,7 @@ def run_allocation(cohort, policy, time_limit=15.0, seed=0):
     """Allocate the cohort's students under the policy and save the run, whatever the outcome.
 
     The policy is an object with a rules list of rule dicts, or such a list itself.
-    A policy that cannot be read is saved as an infeasible run instead of raising.
+    A policy that cannot be read is saved as a bad policy run instead of raising.
     """
     rules_data = getattr(policy, 'rules', policy)
     try:
@@ -22,8 +22,8 @@ def run_allocation(cohort, policy, time_limit=15.0, seed=0):
             project=cohort.project,
             cohort=cohort,
             policy_snapshot={'rules': rules_data},
-            status=INFEASIBLE,
-            message=f'The policy is not valid, so nothing was allocated. {error}',
+            status=AllocationRun.Status.BAD_POLICY,
+            message=f'This policy has a rule that cannot be read, so nothing was allocated. {error}',
         )
 
     students = list(cohort.students.all())
