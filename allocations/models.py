@@ -66,6 +66,7 @@ class AllocationRun(models.Model):
         OK = 'ok', 'Allocated'
         INFEASIBLE = 'infeasible', 'Known infeasible'
         TIMEOUT = 'timeout', 'None found in time'
+        BAD_POLICY = 'bad_policy', 'Policy cannot be read'
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='runs')
     cohort = models.ForeignKey(Cohort, on_delete=models.RESTRICT, related_name='runs')
