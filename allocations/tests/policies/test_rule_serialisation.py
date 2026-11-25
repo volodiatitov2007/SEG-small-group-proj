@@ -28,7 +28,7 @@ class RuleSerialisationTestCase(SimpleTestCase):
         self.assertIs(RULES['team_size'], TeamSizeRule)
 
     def test_unknown_key_is_rejected_with_a_clear_message(self):
-        message = "Unknown rule 'nonsense'. Known rules: team_size."
+        message = "Unknown rule 'nonsense'. Known rules: gender, team_size."
         with self.assertRaisesMessage(ValueError, message):
             rule_from_dict({'key': 'nonsense'})
 

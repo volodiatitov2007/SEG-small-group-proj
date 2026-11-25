@@ -6,7 +6,7 @@ from django.contrib.auth.forms import (
     UserCreationForm,
 )
 
-from .models import User
+from .models import Project, User
 
 
 class BootstrapFormMixin:
@@ -81,3 +81,11 @@ class UserUpdateForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser']
+
+
+class ProjectForm(BootstrapFormMixin, forms.ModelForm):
+    """Form to create or edit a project."""
+
+    class Meta:
+        model = Project
+        fields = ['name', 'description']

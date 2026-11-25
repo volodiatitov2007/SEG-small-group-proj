@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete project</h1>
+  <p>Are you sure you want to delete {{ project.name }}? This also deletes its cohorts, students and allocation runs. This cannot be undone.</p>
+  <form method="post" action="{% url 'project_delete' project.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-secondary" href="{% url 'project_list' %}">Cancel</a>
+  </form>
+{% endblock %}
