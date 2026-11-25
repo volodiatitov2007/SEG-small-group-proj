@@ -16,8 +16,9 @@ def run_allocation(cohort, policy, time_limit=15.0, seed=0):
     """
     rules_data = getattr(policy, 'rules', policy)
     try:
+        rules_data = list(rules_data)
         rules = [rule_from_dict(data) for data in rules_data]
-    except (ValueError, TypeError) as error:
+    except (ValueError, TypeError, AttributeError) as error:
         return AllocationRun.objects.create(
             project=cohort.project,
             cohort=cohort,

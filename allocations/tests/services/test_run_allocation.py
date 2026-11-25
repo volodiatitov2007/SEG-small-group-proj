@@ -86,6 +86,21 @@ class RunAllocationTestCase(TestCase):
         self.assertEqual(run.policy_snapshot, {'rules': rules})
         self.assertEqual(run.teams.count(), 0)
 
+    def test_rule_that_is_not_a_dict_is_saved_as_a_bad_policy_run_not_an_error(self):
+        self.add_students(10)
+        for rules in (['team_size'], [None]):
+            run = run_allocation(self.cohort, rules)
+            self.assertEqual(run.status, AllocationRun.Status.BAD_POLICY)
+            self.assertIn('rule that cannot be read', run.message)
+            self.assertEqual(run.policy_snapshot, {'rules': rules})
+            self.assertEqual(run.teams.count(), 0)
+
+    def test_policy_whose_rules_are_not_a_list_is_saved_as_a_bad_policy_run(self):
+        self.add_students(10)
+        run = run_allocation(self.cohort, SimpleNamespace(rules=None))
+        self.assertEqual(run.status, AllocationRun.Status.BAD_POLICY)
+        self.assertEqual(run.teams.count(), 0)
+
     def test_policy_object_with_a_rules_attribute_is_accepted(self):
         students = self.add_students(10)
         run = run_allocation(self.cohort, SimpleNamespace(rules=self.rules))
