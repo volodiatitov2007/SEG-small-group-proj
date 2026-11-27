@@ -51,6 +51,36 @@ class CohortDetailViewTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertContains(response, '<td>—</td>', html=True)
 
+    def add_students(self, count):
+        """Add count more students to the cohort."""
+        Student.objects.bulk_create(
+            Student(cohort=self.cohort, first_name='Student', last_name=f'{number:03}', email=f's{number}@example.org')
+            for number in range(count)
+        )
+
+    def test_short_cohort_has_no_page_links(self):
+        response = self.client.get(self.url)
+        self.assertNotContains(response, 'Page 1 of')
+
+    def test_long_cohort_is_split_into_pages_of_50(self):
+        self.add_students(119)
+        response = self.client.get(self.url)
+        self.assertContains(response, '120 students')
+        self.assertContains(response, 'Page 1 of 3')
+        self.assertEqual(len(response.context['page']), 50)
+        self.assertContains(response, '?page=2')
+
+    def test_last_page_shows_the_remaining_students(self):
+        self.add_students(119)
+        response = self.client.get(self.url, {'page': 3})
+        self.assertContains(response, 'Page 3 of 3')
+        self.assertEqual(len(response.context['page']), 20)
+        self.assertNotContains(response, 'Next')
+
+    def test_page_that_is_not_a_number_shows_the_first_page(self):
+        response = self.client.get(self.url, {'page': 'abc'})
+        self.assertEqual(response.context['page'].number, 1)
+
     def test_other_users_cohort_gives_404(self):
         other_project = Project.objects.create(name='Theirs', owner=create_superuser())
         other_cohort = Cohort.objects.create(project=other_project, original_filename='theirs.csv')
@@ -159,10 +189,12 @@ class CohortUploadViewTestCase(TestCase):
         self.assertEqual(Cohort.objects.count(), 0)
         self.assertContains(response, 'Please upload a .csv file.')
 
-    def test_sample_file_imports_300_students(self):
+    def test_sample_file_imports_300_students_shown_in_pages(self):
         with open(FIXTURES / 'sample_student_cohort_data.csv', 'rb') as file:
-            self.client.post(self.url, {'file': file})
+            response = self.client.post(self.url, {'file': file}, follow=True)
         self.assertEqual(Student.objects.count(), 300)
+        self.assertContains(response, '300 students')
+        self.assertContains(response, 'Page 1 of 6')
 
     def test_other_users_project_gives_404_and_saves_nothing(self):
         other_project = Project.objects.create(name='Theirs', owner=create_superuser())

@@ -2,12 +2,15 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from allocations.cohort_import import save_cohort
 from allocations.csv_import import parse_cohort_csv
 from allocations.forms import CohortUploadForm
 from allocations.models import Cohort, Project
+
+STUDENTS_PER_PAGE = 50
 
 
 @login_required
@@ -39,8 +42,5 @@ def cohort_detail(request, cohort_id):
     """Show the students in one of the logged-in user's cohorts, and any problems from its upload."""
     cohort = get_object_or_404(Cohort, pk=cohort_id, project__owner=request.user)
     upload = request.session.pop(f'cohort_upload_{cohort.id}', None)
-    return render(request, 'cohort_detail.html', {
-        'cohort': cohort,
-        'students': cohort.students.all(),
-        'upload': upload,
-    })
+    page = Paginator(cohort.students.all(), STUDENTS_PER_PAGE).get_page(request.GET.get('page'))
+    return render(request, 'cohort_detail.html', {'cohort': cohort, 'page': page, 'upload': upload})
