@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
   <h1>{{ run.project.name }}: allocation run</h1>
-  {% if run.status == 'infeasible' %}
-    <div class="alert alert-danger"><strong>Known impossible.</strong> {{ run.message|default:'No allocation meets the hard rules.' }}</div>
+  {% if run.status == 'bad_policy' %}
+    <div class="alert alert-danger"><strong>Policy cannot be read.</strong> {{ run.message }} Fix the policy, then run the allocation again.</div>
+  {% elif run.status == 'infeasible' %}
+    <div class="alert alert-danger"><strong>Known infeasible.</strong>
+      {{ run.message|default:'The configured conditions cannot be met together.' }}
+    </div>
   {% else %}
-    <div class="alert alert-danger"><strong>None found within the time limit.</strong> {{ run.message }}</div>
+    <div class="alert alert-danger"><strong>No valid allocation found within the time limit.</strong>
+      This does not prove that none exists.
+      {% if run.message %}<p class="mb-0 mt-2">{{ run.message }}</p>{% endif %}
+    </div>
   {% endif %}
-  <p>Cohort: {{ run.cohort.original_filename }} · Run time: {{ run.created_at }}</p>
+  <p>Cohort: {{ run.cohort.original_filename }} | Run time: {{ run.created_at }}</p>
+  <p>Search duration: {{ run.duration_seconds|default_if_none:'Not recorded' }}{% if run.duration_seconds != None %} seconds{% endif %}.</p>
+  <section class="mb-3"><h2 class="h5">Policy used</h2>
+    {% if policy_lines %}<ul>{% for line in policy_lines %}<li>{{ line }}</li>{% endfor %}</ul>
+    {% else %}<p class="text-muted">No policy details recorded.</p>{% endif %}
+  </section>
   <a href="{% url 'project_detail' run.project_id %}">Back to project</a>
 {% endblock %}
