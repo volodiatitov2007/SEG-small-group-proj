@@ -6,7 +6,7 @@ from django.contrib.auth.forms import (
     UserCreationForm,
 )
 
-from .models import User
+from .models import Project, User
 
 
 class BootstrapFormMixin:
@@ -94,3 +94,11 @@ class CohortUploadForm(BootstrapFormMixin, forms.Form):
         if not file.name.lower().endswith('.csv'):
             raise forms.ValidationError('Please upload a .csv file.')
         return file
+
+
+class ProjectForm(BootstrapFormMixin, forms.ModelForm):
+    """Form to create or edit a project."""
+
+    class Meta:
+        model = Project
+        fields = ['name', 'description']

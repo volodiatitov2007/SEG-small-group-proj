@@ -39,6 +39,7 @@ class Rule:
     """Base class for an allocation rule that can be hard or soft."""
 
     key = 'base'
+    label = 'Rule'  # shown to staff; a rule with settings may compute it from them
 
     def __init__(self, hard: bool, priority: int = 1):
         if priority not in PRIORITIES:
@@ -71,6 +72,11 @@ class Rule:
     def from_dict(cls, data: dict) -> 'Rule':
         settings = {name: value for name, value in data.items() if name != 'key'}
         return cls(**settings)
+
+    def describe(self) -> str:
+        """Return a short description for staff, e.g. 'Team size 4-5 (hard)'."""
+        strength = 'hard' if self.hard else f'soft, priority {self.priority}'
+        return f'{self.label} ({strength})'
 
     def violation(self, team: str | None, message: str, amount: float = 1.0) -> Violation:
         """Build a violation of this rule with its hard/soft flag and priority."""
