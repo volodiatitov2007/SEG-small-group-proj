@@ -17,4 +17,4 @@ from .user_management_views import (
 )
 from .results_views import export_run_csv, project_detail, run_detail
 from .project_views import project_create, project_delete, project_list, project_update
-from .cohort_views import cohort_detail
+from .cohort_views import cohort_detail, cohort_upload

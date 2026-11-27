@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p><a href="{% url 'project_detail' project.id %}">Back to {{ project.name }}</a></p>
+  <h1>Upload a cohort</h1>
+  <p>Upload a CSV file with the columns first_name, last_name and email. The columns gender, ethnicity and c-score are optional, and any other columns are kept.</p>
+
+  {% if result.file_errors %}
+    <div class="alert alert-danger">
+      <p>Nothing was imported:</p>
+      <ul class="mb-0">
+        {% for problem in result.file_errors %}
+          <li>{{ problem.message }}</li>
+        {% endfor %}
+        {% for problem in result.bad_rows %}
+          <li>{{ problem.message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'partials/form.html' %}
+    <button type="submit" class="btn btn-primary">Upload</button>
+    <a class="btn btn-secondary" href="{% url 'project_detail' project.id %}">Cancel</a>
+  </form>
+{% endblock %}

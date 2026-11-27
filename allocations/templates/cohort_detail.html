@@ -4,6 +4,26 @@
   <p><a href="{% url 'project_detail' cohort.project.id %}">Back to {{ cohort.project.name }}</a></p>
   <h1>{{ cohort.original_filename }}</h1>
   <p>Uploaded {{ cohort.uploaded_at|date:"j M Y, H:i" }} · {{ students|length }} student{{ students|length|pluralize }}</p>
+  {% if upload.bad_rows %}
+    <div class="alert alert-warning">
+      <p>These rows were skipped. Fix them and upload the file again to add them:</p>
+      <ul class="mb-0">
+        {% for problem in upload.bad_rows %}
+          <li>{{ problem }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  {% if upload.warnings %}
+    <details class="mb-3">
+      <summary>{{ upload.warnings|length }} warning{{ upload.warnings|length|pluralize }}</summary>
+      <ul>
+        {% for problem in upload.warnings %}
+          <li>{{ problem }}</li>
+        {% endfor %}
+      </ul>
+    </details>
+  {% endif %}
   <div class="table-responsive">
     <table class="table table-sm table-striped">
       <thead>

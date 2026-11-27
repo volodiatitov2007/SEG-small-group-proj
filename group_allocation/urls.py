@@ -14,6 +14,7 @@ urlpatterns = [
     path('projects/<int:project_id>/', views.project_detail, name='project_detail'),
     path('projects/<int:project_id>/edit/', views.project_update, name='project_update'),
     path('projects/<int:project_id>/delete/', views.project_delete, name='project_delete'),
+    path('projects/<int:project_id>/upload/', views.cohort_upload, name='cohort_upload'),
     path('cohorts/<int:cohort_id>/', views.cohort_detail, name='cohort_detail'),
     path('runs/<int:run_id>/', views.run_detail, name='run_detail'),
     path('runs/<int:run_id>/export.csv', views.export_run_csv, name='export_run_csv'),
