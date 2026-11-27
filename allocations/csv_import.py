@@ -44,7 +44,17 @@ class ImportResult:
 def parse_cohort_csv(uploaded_file):
     """Read a cohort CSV file and return its good rows, bad rows, file errors and warnings."""
     result = ImportResult()
-    text = uploaded_file.read().decode('utf-8-sig')
+    try:
+        text = uploaded_file.read().decode('utf-8-sig')
+    except UnicodeDecodeError:
+        result.file_errors.append(Problem(
+            row_number=None,
+            column='',
+            value='',
+            message='The file could not be read. Save it as "CSV UTF-8" and upload it again.',
+        ))
+        return result
+
     reader = csv.DictReader(io.StringIO(text))
     columns = reader.fieldnames or []
     result.columns = columns
@@ -77,6 +87,13 @@ def parse_cohort_csv(uploaded_file):
             result.rows.append(student)
             seen_emails[student['email']] = row_number
 
+    if not result.rows:
+        result.file_errors.append(Problem(
+            row_number=None,
+            column='',
+            value='',
+            message='No students could be imported from this file.',
+        ))
     return result
 
 

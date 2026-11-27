@@ -267,3 +267,29 @@ class CleanRowsTestCase(SimpleTestCase):
     def test_columns_are_recorded_in_order(self):
         result = parse_cohort_csv(csv_file(self.HEADER + 'Ada,Lovelace,ada@example.org,1,4,57,\n'))
         self.assertEqual(result.columns, ['first_name', 'last_name', 'email', 'gender', 'ethnicity', 'c-score', 'schedule'])
+
+
+class UnusableFileTestCase(SimpleTestCase):
+    """Tests that a file nobody can be imported from is a file error."""
+
+    def test_file_that_is_not_utf8_is_a_file_error(self):
+        text = 'first_name,last_name,email\nZo\u00eb,Smith,zoe@example.org\n'
+        result = parse_cohort_csv(io.BytesIO(text.encode('latin-1')))
+        self.assertEqual(len(result.file_errors), 1)
+        self.assertIn('could not be read', result.file_errors[0].message)
+        self.assertEqual(result.rows, [])
+
+    def test_file_with_only_a_header_is_a_file_error(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\n'))
+        self.assertEqual(len(result.file_errors), 1)
+        self.assertIn('No students', result.file_errors[0].message)
+
+    def test_file_where_every_row_is_bad_is_a_file_error_and_keeps_the_bad_rows(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,\nBob,Brown,bob@\n'))
+        self.assertEqual(len(result.file_errors), 1)
+        self.assertEqual([problem.row_number for problem in result.bad_rows], [2, 3])
+
+    def test_file_with_one_good_row_has_no_file_errors(self):
+        result = parse_cohort_csv(csv_file('first_name,last_name,email\nAda,Lovelace,\nAlan,Turing,alan@example.org\n'))
+        self.assertEqual(result.file_errors, [])
+        self.assertEqual(len(result.rows), 1)
