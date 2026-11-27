@@ -81,3 +81,16 @@ class UserUpdateForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser']
+
+
+class CohortUploadForm(BootstrapFormMixin, forms.Form):
+    """Form to upload a cohort CSV file."""
+
+    file = forms.FileField(label='Cohort CSV file', widget=forms.FileInput(attrs={'accept': '.csv'}))
+
+    def clean_file(self):
+        """Only accept files whose name ends in .csv."""
+        file = self.cleaned_data['file']
+        if not file.name.lower().endswith('.csv'):
+            raise forms.ValidationError('Please upload a .csv file.')
+        return file
