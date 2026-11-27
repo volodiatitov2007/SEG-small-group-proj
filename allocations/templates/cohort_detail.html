@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p><a href="{% url 'project_detail' cohort.project.id %}">Back to {{ cohort.project.name }}</a></p>
+  <h1>{{ cohort.original_filename }}</h1>
+  <p>Uploaded {{ cohort.uploaded_at|date:"j M Y, H:i" }} · {{ students|length }} student{{ students|length|pluralize }}</p>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Ethnicity</th>
+          <th>C-score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          <tr>
+            <td>{{ student.first_name }} {{ student.last_name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.gender|default_if_none:"—" }}</td>
+            <td>{{ student.ethnicity|default_if_none:"—" }}</td>
+            <td>{{ student.c_score|default_if_none:"—" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
