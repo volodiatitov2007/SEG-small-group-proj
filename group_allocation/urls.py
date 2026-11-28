@@ -23,4 +23,7 @@ urlpatterns = [
     path('users/<int:user_id>/', views.user_detail, name='user_detail'),
     path('users/<int:user_id>/update/', views.user_update, name='user_update'),
     path('users/<int:user_id>/delete/', views.user_delete, name='user_delete'),
+    path('projects/<int:project_id>/policies/', views.policy_list, name='policy_list'),
+    path('projects/<int:project_id>/policies/new/', views.policy_create, name='policy_create'),
+    path('policies/<int:policy_id>/edit/', views.policy_update, name='policy_update'),
 ]

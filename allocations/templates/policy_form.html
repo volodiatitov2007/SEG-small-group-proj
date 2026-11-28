@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  <p>Project <a href="{% url 'project_detail' project.id %}">{{ project.name }}</a>.
+    Team size is always a hard rule: no allocation is returned that breaks it.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% include 'partials/form.html' %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" href="{% url 'policy_list' project.id %}">Cancel</a>
+  </form>
+{% endblock %}

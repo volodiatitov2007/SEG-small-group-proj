@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
   <h1>{{ project.name }}</h1>
+  <p><a class="btn btn-outline-secondary btn-sm" href="{% url 'policy_list' project.id %}">Allocation policies</a></p>
   {% if project.description %}<p>{{ project.description }}</p>{% endif %}
   <h2 class="h4 mt-4">Allocation runs</h2>
   {% if runs %}
